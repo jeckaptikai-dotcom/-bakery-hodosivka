@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📱 Доступ з телефону - Пекарня в Ходосівці</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #DBC2A6 0%, #F5E6D3 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            object-fit: cover;
+        }
+
+        h1 {
+            color: #4D372C;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            color: #8B7355;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .url-display {
+            background: linear-gradient(135deg, #FDF5E6 0%, #E8D5C4 100%);
+            border: 2px solid #DBC2A6;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .url-display::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #4D372C, #8B7355, #DBC2A6);
+        }
+
+        .domain {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #4D372C;
+            margin-bottom: 10px;
+        }
+
+        .domain-subtitle {
+            color: #8B7355;
+            font-size: 0.9rem;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #4D372C;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #8B7355;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #DBC2A6;
+            color: #4D372C;
+        }
+
+        .btn-secondary:hover {
+            background: #8B7355;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .instructions {
+            margin-top: 30px;
+            text-align: left;
+            background: #FDF5E6;
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .instruction {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+            color: #4D372C;
+        }
+
+        .instruction i {
+            color: #8B7355;
+            width: 20px;
+        }
+
+        .qr-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #FDF5E6;
+            border-radius: 15px;
+        }
+
+        .qr-code {
+            margin: 20px 0;
+        }
+
+        .creator {
+            margin-top: 30px;
+            padding: 15px;
+            background: #F5F5F5;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            color: #8B7355;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .domain {
+                font-size: 1.4rem;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="logo.jpg" alt="Пекарня в Ходосівці" class="logo">
+
+        <h1>📱 Доступ з телефону</h1>
+        <p class="subtitle">Пекарня в Ходосівці</p>
+
+        <div class="url-display">
+            <div class="domain">192.168.0.101:8000</div>
+            <div class="domain-subtitle">IP адреса для доступу з телефону</div>
+        </div>
+
+        <div class="buttons">
+            <a href="http://192.168.0.101:8000" class="btn btn-primary">
+                <i class="fas fa-home"></i>
+                Відкрити сайт
+            </a>
+            <a href="http://192.168.0.101:8000/admin-login.html" class="btn btn-secondary">
+                <i class="fas fa-cog"></i>
+                Адмін панель
+            </a>
+        </div>
+
+        <div class="instructions">
+            <h3 style="color: #4D372C; margin-bottom: 15px;">📋 Інструкція для телефону:</h3>
+            <div class="instruction">
+                <i class="fas fa-wifi"></i>
+                <span>Переконайтеся, що телефон підключений до тієї ж Wi-Fi мережі</span>
+            </div>
+            <div class="instruction">
+                <i class="fas fa-qrcode"></i>
+                <span>Відскануйте QR код нижче або введіть адресу вручну</span>
+            </div>
+            <div class="instruction">
+                <i class="fas fa-globe"></i>
+                <span>Відкрийте в браузері: <strong>http://192.168.0.101:8000</strong></span>
+            </div>
+            <div class="instruction">
+                <i class="fas fa-share-alt"></i>
+                <span>Можете поділитися посиланням з іншими</span>
+            </div>
+        </div>
+
+        <div class="qr-section">
+            <h3 style="color: #4D372C; margin-bottom: 15px;">📱 QR код для швидкого доступу:</h3>
+            <div class="qr-code">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://192.168.0.101:8000" alt="QR код">
+            </div>
+            <p style="color: #8B7355; font-size: 0.9rem;">
+                Відскануйте для швидкого доступу з телефону
+            </p>
+        </div>
+
+        <div class="creator">
+            <i class="fas fa-user-shield"></i>
+            <strong>Творець системи:</strong> @mm.slmn
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Статус системи - Пекарня в Ходосівці</title>
+    <link rel="stylesheet" href="auth-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <img src="logo.jpg" alt="Пекарня в Ходосівці">
+                <h1>Статус системи</h1>
+                <p>Перевірка налаштувань</p>
+            </div>
+
+            <div id="status-content">
+                <div class="status-item">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    Перевіряємо...
+                </div>
+            </div>
+
+            <div class="back-link">
+                <a href="index.html">
+                    <i class="fas fa-home"></i> Головна сторінка
+                </a>
+            </div>
+            <div style="text-align: center; margin-top: 20px; padding: 15px; background: #f0f8ff; border-radius: 10px;">
+                <p style="margin: 0; font-size: 0.9rem; color: #4D372C;">
+                    <i class="fas fa-user-shield"></i> 
+                    <strong>Творець системи:</strong> <span id="status-creator-link">@mm.slmn</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function checkStatus() {
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const admins = JSON.parse(localStorage.getItem('admins') || '[]');
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const isLoggedIn = localStorage.getItem('adminLoggedIn');
+
+            let html = '<div style="text-align: left;">';
+            
+            // Check users
+            html += `<div class="status-item">
+                <i class="fas fa-users"></i>
+                <strong>Користувачі:</strong> ${users.length}
+            </div>`;
+            
+            // Check admins
+            html += `<div class="status-item">
+                <i class="fas fa-user-shield"></i>
+                <strong>Адміністратори:</strong> ${admins.length}
+            </div>`;
+            
+            // Check current user
+            if (currentUser) {
+                html += `<div class="status-item">
+                    <i class="fas fa-user"></i>
+                    <strong>Поточний користувач:</strong> ${currentUser.name} (${currentUser.phone})
+                </div>`;
+            } else {
+                html += `<div class="status-item">
+                    <i class="fas fa-user-times"></i>
+                    <strong>Поточний користувач:</strong> Не увійшли
+                </div>`;
+            }
+            
+            // Check login status
+            if (isLoggedIn) {
+                html += `<div class="status-item">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <strong>Статус входу:</strong> Увійшли в адмін панель
+                </div>`;
+            } else {
+                html += `<div class="status-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <strong>Статус входу:</strong> Не увійшли
+                </div>`;
+            }
+            
+            // Recommendations
+            html += '<div style="margin-top: 20px; padding: 15px; background: #f0f8ff; border-radius: 10px;">';
+            html += '<h4>Рекомендації:</h4>';
+            
+            if (admins.length === 0) {
+                html += '<p>⚠️ <strong>Створіть адміністратора:</strong> <a href="init-admin.html">init-admin.html</a></p>';
+            } else if (!isLoggedIn) {
+                html += '<p>🔑 <strong>Увійдіть в адмін панель:</strong> <a href="admin-login.html">admin-login.html</a></p>';
+            } else {
+                html += '<p>✅ <strong>Система готова!</strong> <a href="admin.html">admin.html</a></p>';
+            }
+            
+            html += '</div>';
+            html += '</div>';
+            
+            document.getElementById('status-content').innerHTML = html;
+        }
+
+                            // Check status on page load
+                    window.addEventListener('load', () => {
+                        checkStatus();
+                        
+                        // Make creator link clickable for admins
+                        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                        if (currentUser) {
+                            const admins = JSON.parse(localStorage.getItem('admins') || '[]');
+                            const isAdmin = admins.find(a => a.phone === currentUser.phone);
+                            
+                            if (isAdmin) {
+                                const statusCreatorLink = document.getElementById('status-creator-link');
+                                if (statusCreatorLink) {
+                                    statusCreatorLink.innerHTML = '<a href="https://t.me/mm.slmn" target="_blank" style="color: #4D372C; text-decoration: none;">@mm.slmn</a>';
+                                }
+                            }
+                        }
+                    });
+    </script>
+
+    <style>
+        .status-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .status-item i {
+            width: 20px;
+            color: #8B7355;
+        }
+        
+        .status-item a {
+            color: #4D372C;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .status-item a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</body>
+</html> 

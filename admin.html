@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Адмін панель - Пекарня в Ходосівці</title>
+    <link rel="stylesheet" href="admin-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Header -->
+        <header class="admin-header">
+            <div class="header-content">
+                                    <div class="logo">
+                        <img src="logo.jpg" alt="Пекарня" class="logo-img">
+                        <h1>Адмін панель</h1>
+                        <p style="font-size: 0.9rem; color: #8B7355; margin: 0;">Творець: @mm.slmn</p>
+                    </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" onclick="previewSite()">
+                        <i class="fas fa-eye"></i> Переглянути сайт
+                    </button>
+                    <button class="btn btn-primary" onclick="saveChanges()">
+                        <i class="fas fa-save"></i> Зберегти
+                    </button>
+                    <button class="btn btn-secondary" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Вийти
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Navigation Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="content">
+                    <i class="fas fa-edit"></i> Контент
+                </button>
+                <button class="tab-btn" data-tab="menu">
+                    <i class="fas fa-utensils"></i> Меню
+                </button>
+                <button class="tab-btn" data-tab="contact">
+                    <i class="fas fa-phone"></i> Контакти
+                </button>
+                <button class="tab-btn" data-tab="settings">
+                    <i class="fas fa-cog"></i> Налаштування
+                </button>
+                <button class="tab-btn" data-tab="admins">
+                    <i class="fas fa-users-cog"></i> Адміністратори
+                </button>
+            </div>
+
+            <!-- Content Tab -->
+            <div class="tab-content active" id="content">
+                <div class="section">
+                    <h3>Головна сторінка</h3>
+                    <div class="form-group">
+                        <label>Заголовок</label>
+                        <input type="text" id="hero-title" value="Свіжа випічка щодня" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Підзаголовок</label>
+                        <textarea id="hero-subtitle" class="form-textarea">Натуральні інгредієнти та традиційні рецепти для найкращого смаку</textarea>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Про нас</h3>
+                    <div class="form-group">
+                        <label>Опис</label>
+                        <textarea id="about-text" class="form-textarea">Наша пекарня в Ходосівці - це місце, де традиції зустрічаються з якістю. Ми випікаємо свіжий хліб та кондитерські вироби щодня, використовуючи тільки натуральні інгредієнти.</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Menu Tab -->
+            <div class="tab-content" id="menu">
+                <div class="section">
+                    <h3>Управління меню</h3>
+                    <button class="btn btn-primary" onclick="addMenuItem()">
+                        <i class="fas fa-plus"></i> Додати продукт
+                    </button>
+                    
+                    <div class="menu-items" id="menu-items">
+                        <!-- Menu items will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Tab -->
+            <div class="tab-content" id="contact">
+                <div class="section">
+                    <h3>Контактна інформація</h3>
+                    <div class="form-group">
+                        <label>Телефон</label>
+                        <input type="tel" id="phone" value="+380976492525" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Адреса</label>
+                        <input type="text" id="address" value="вул. Феодосія Печерського, 1, Ходосівка, Київська область, 08173" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Години роботи</label>
+                        <input type="text" id="hours" value="Щодня з 08:00 до 21:00" class="form-input">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div class="tab-content" id="settings">
+                <div class="section">
+                    <h3>Налаштування сайту</h3>
+                    <div class="form-group">
+                        <label>Назва сайту</label>
+                        <input type="text" id="site-title" value="Пекарня в Ходосівці" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Колір теми</label>
+                        <select id="theme-color" class="form-select">
+                            <option value="brown">Коричневий</option>
+                            <option value="beige">Бежевий</option>
+                            <option value="cream">Кремовий</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admins Tab -->
+            <div class="tab-content" id="admins">
+                <div class="section">
+                    <h3>Управління адміністраторами</h3>
+                    <p>Тут ви можете додавати та видаляти адміністраторів сайту.</p>
+                    <button class="btn btn-primary" onclick="window.location.href='admin-users.html'">
+                        <i class="fas fa-users-cog"></i> Управління адміністраторами
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for adding menu items -->
+    <div class="modal" id="menu-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Додати продукт</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Назва продукту</label>
+                    <input type="text" id="item-name" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label>Опис</label>
+                    <textarea id="item-description" class="form-textarea"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Ціна (грн)</label>
+                    <input type="number" id="item-price" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label>Категорія</label>
+                    <select id="item-category" class="form-select">
+                        <option value="bread">Хліб</option>
+                        <option value="pastry">Випічка</option>
+                        <option value="cakes">Торти</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Зображення продукту</label>
+                    <div class="image-upload-container">
+                        <input type="file" id="item-image-file" class="form-input" accept="image/*" onchange="previewImage(this)">
+                        <div class="image-preview" id="image-preview">
+                            <p>Перетягніть фото сюди або натисніть для вибору</p>
+                        </div>
+                        <div class="image-options">
+                            <label>
+                                <input type="radio" name="image-source" value="file" checked> Завантажити з пристрою
+                            </label>
+                            <label>
+                                <input type="radio" name="image-source" value="url"> URL зображення
+                            </label>
+                        </div>
+                        <input type="text" id="item-image-url" class="form-input" placeholder="https://example.com/image.jpg" style="display: none;">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Скасувати</button>
+                <button class="btn btn-primary" onclick="saveMenuItem()">Зберегти</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+    <script>
+                // Check authentication
+        function checkAuth() {
+            const isLoggedIn = localStorage.getItem('adminLoggedIn');
+            const loginTime = localStorage.getItem('adminLoginTime');
+            const currentTime = Date.now();
+
+            // Check if logged in and session is valid (24 hours)
+            if (!isLoggedIn || !loginTime || (currentTime - loginTime) > 24 * 60 * 60 * 1000) {
+                // Clear invalid session
+                localStorage.removeItem('adminLoggedIn');
+                localStorage.removeItem('adminLoginTime');
+
+                // Check if we're on init page
+                if (window.location.pathname.includes('init-admin.html')) {
+                    return true; // Allow access to init page
+                }
+
+                // Redirect to login
+                window.location.href = 'admin-login.html';
+                return false;
+            }
+            return true;
+        }
+        
+        // Check auth on page load
+        window.addEventListener('load', function() {
+            if (!checkAuth()) {
+                return;
+            }
+        });
+        
+        // Add logout function
+        function logout() {
+            localStorage.removeItem('adminLoggedIn');
+            localStorage.removeItem('adminLoginTime');
+            window.location.href = 'admin-login.html';
+        }
+        
+        // Check admin permissions
+        function checkAdminPermissions() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser) {
+                window.location.href = 'admin-login.html';
+                return;
+            }
+            
+            const admins = JSON.parse(localStorage.getItem('admins') || '[]');
+            const userAdmin = admins.find(a => a.phone === currentUser.phone);
+            
+            if (!userAdmin) {
+                // If no admins exist, allow access to create first admin
+                if (admins.length === 0) {
+                    return;
+                }
+                
+                alert('У вас немає прав доступу до адмін панелі');
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // Hide admin management for moderators
+            if (userAdmin.level === 'moderator') {
+                const adminsTab = document.querySelector('[data-tab="admins"]');
+                if (adminsTab) {
+                    adminsTab.style.display = 'none';
+                }
+            }
+        }
+        
+        // Check permissions on page load
+        window.addEventListener('load', function() {
+            if (!checkAuth()) {
+                return;
+            }
+            checkAdminPermissions();
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управління адміністраторами - Пекарня в Ходосівці</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="admin-styles.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Header -->
+        <header class="admin-header">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="logo.jpg" alt="Пекарня" class="logo-img">
+                    <h1>Управління адміністраторами</h1>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" onclick="window.location.href='admin.html'">
+                        <i class="fas fa-arrow-left"></i> Назад до адмін панелі
+                    </button>
+                    <button class="btn btn-primary" onclick="saveAdmins()">
+                        <i class="fas fa-save"></i> Зберегти
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <div class="section">
+                <h3>Додати адміністратора</h3>
+                <div class="form-group">
+                    <label>Телефон користувача</label>
+                    <input type="tel" id="admin-phone" class="form-input" placeholder="+380">
+                </div>
+                <div class="form-group">
+                    <label>Рівень доступу</label>
+                    <select id="admin-level" class="form-select">
+                        <option value="admin">Адміністратор</option>
+                        <option value="moderator">Модератор</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" onclick="addAdmin()">
+                    <i class="fas fa-plus"></i> Додати адміністратора
+                </button>
+            </div>
+
+            <div class="section">
+                <h3>Поточні адміністратори</h3>
+                <div id="admins-list">
+                    <!-- Admins will be loaded here -->
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Інструкції</h3>
+                <div class="instructions">
+                    <p><strong>Як додати адміністратора:</strong></p>
+                    <ol>
+                        <li>Користувач повинен спочатку зареєструватися на сайті</li>
+                        <li>Введіть його телефон у поле вище</li>
+                        <li>Виберіть рівень доступу</li>
+                        <li>Натисніть "Додати адміністратора"</li>
+                    </ol>
+                    
+                    <p><strong>Рівні доступу:</strong></p>
+                    <ul>
+                        <li><strong>Адміністратор</strong> - повний доступ до всіх функцій</li>
+                        <li><strong>Модератор</strong> - може редагувати контент, але не може додавати інших адміністраторів</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Load admins on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAdmins();
+        });
+
+        // Add new admin
+        function addAdmin() {
+            const phone = document.getElementById('admin-phone').value;
+            const level = document.getElementById('admin-level').value;
+            
+            if (!phone) {
+                alert('Будь ласка, введіть телефон');
+                return;
+            }
+            
+            // Get existing admins and users
+            const admins = JSON.parse(localStorage.getItem('admins') || '[]');
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            // Check if admin already exists
+            if (admins.find(a => a.phone === phone)) {
+                alert('Цей користувач вже є адміністратором');
+                return;
+            }
+            
+            // Check if user exists
+            const user = users.find(u => u.phone === phone);
+            if (!user) {
+                alert('Користувач з таким телефоном не знайдений. Спочатку користувач повинен зареєструватися на сайті.');
+                return;
+            }
+            
+            // Add new admin
+            const newAdmin = {
+                phone: phone,
+                level: level,
+                addedAt: new Date().toISOString()
+            };
+            
+            admins.push(newAdmin);
+            localStorage.setItem('admins', JSON.stringify(admins));
+            
+            // Clear form
+            document.getElementById('admin-phone').value = '';
+            
+            // Reload list
+            loadAdmins();
+            
+            const fullName = user.surname ? `${user.name} ${user.surname}` : user.name;
+            alert(`Адміністратора додано!\n\nКористувач: ${fullName}\nТелефон: ${phone}\nРівень: ${level}`);
+        }
+
+        // Load admins list
+        function loadAdmins() {
+            const admins = JSON.parse(localStorage.getItem('admins') || '[]');
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const container = document.getElementById('admins-list');
+            
+            if (admins.length === 0) {
+                container.innerHTML = '<p>Поки що немає адміністраторів</p>';
+                return;
+            }
+            
+            container.innerHTML = admins.map((admin, index) => {
+                // Find user info
+                const user = users.find(u => u.phone === admin.phone);
+                const fullName = user ? (user.surname ? `${user.name} ${user.surname}` : user.name) : 'Невідомий користувач';
+                
+                return `
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-title">
+                            <i class="fas fa-user-shield"></i>
+                            ${fullName}
+                            <span class="admin-level">(${admin.level})</span>
+                        </div>
+                        <div class="menu-item-actions">
+                            <button class="btn btn-secondary" onclick="removeAdmin(${index})">
+                                <i class="fas fa-trash"></i> Видалити
+                            </button>
+                        </div>
+                    </div>
+                    <div class="menu-item-details">
+                        Телефон: ${admin.phone}<br>
+                        Додано: ${new Date(admin.addedAt).toLocaleDateString('uk-UA')}
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        // Remove admin
+        function removeAdmin(index) {
+            if (confirm('Ви впевнені, що хочете видалити цього адміністратора?')) {
+                const admins = JSON.parse(localStorage.getItem('admins') || '[]');
+                admins.splice(index, 1);
+                localStorage.setItem('admins', JSON.stringify(admins));
+                loadAdmins();
+                alert('Адміністратора видалено!');
+            }
+        }
+
+        // Save admins (for consistency)
+        function saveAdmins() {
+            alert('Адміністратори збережено!');
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корисні посилання - Пекарня в Ходосівці</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #DBC2A6 0%, #F5E6D3 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            object-fit: cover;
+        }
+
+        h1 {
+            color: #4D372C;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #8B7355;
+            font-size: 1.1rem;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .link-card {
+            background: linear-gradient(135deg, #FDF5E6 0%, #E8D5C4 100%);
+            border: 2px solid #DBC2A6;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .link-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-color: #8B7355;
+        }
+
+        .link-icon {
+            font-size: 3rem;
+            color: #4D372C;
+            margin-bottom: 15px;
+        }
+
+        .link-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #4D372C;
+            margin-bottom: 10px;
+        }
+
+        .link-description {
+            color: #8B7355;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 24px;
+            background: #4D372C;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #8B7355;
+            transform: translateY(-2px);
+        }
+
+        .admin-only {
+            background: linear-gradient(135deg, #FFE4E1 0%, #FFB6C1 100%);
+            border-color: #FF6B6B;
+        }
+
+        .admin-only .link-icon {
+            color: #D32F2F;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="logo.jpg" alt="Пекарня в Ходосівці">
+            <h1>Корисні посилання</h1>
+            <p class="subtitle">Для адміністраторів та розробників</p>
+        </div>
+
+        <div class="links-grid">
+            <a href="phone-access.html" class="link-card">
+                <div class="link-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div class="link-title">Доступ з телефону</div>
+                <div class="link-description">
+                    Сторінка з IP адресою та QR кодом для доступу з мобільних пристроїв
+                </div>
+            </a>
+
+            <a href="universal-access.md" class="link-card">
+                <div class="link-icon">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="link-title">Універсальний доступ</div>
+                <div class="link-description">
+                    Інструкції для налаштування DNS та доступу з усіх пристроїв
+                </div>
+            </a>
+
+            <a href="admin-users.html" class="link-card admin-only">
+                <div class="link-icon">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="link-title">Управління адміністраторами</div>
+                <div class="link-description">
+                    Додавання та видалення адміністраторів системи
+                </div>
+            </a>
+
+            <a href="status.html" class="link-card admin-only">
+                <div class="link-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="link-title">Статус системи</div>
+                <div class="link-description">
+                    Інформація про користувачів, адміністраторів та систему
+                </div>
+            </a>
+
+            <a href="qr.html" class="link-card">
+                <div class="link-icon">
+                    <i class="fas fa-qrcode"></i>
+                </div>
+                <div class="link-title">QR коди</div>
+                <div class="link-description">
+                    QR коди для швидкого доступу до сайту з різних пристроїв
+                </div>
+            </a>
+
+            <a href="simple-url.html" class="link-card">
+                <div class="link-icon">
+                    <i class="fas fa-link"></i>
+                </div>
+                <div class="link-title">Красивий домен</div>
+                <div class="link-description">
+                    Сторінка з красивим доменом та інструкціями для налаштування
+                </div>
+            </a>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Повернутися на головну
+            </a>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px; padding: 15px; background: #F5F5F5; border-radius: 10px;">
+            <p style="margin: 0; font-size: 0.9rem; color: #8B7355;">
+                <i class="fas fa-user-shield"></i>
+                <strong>Творець системи:</strong> @mm.slmn
+            </p>
+        </div>
+    </div>
+</body>
+</html> 

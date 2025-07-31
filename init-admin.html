@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ініціалізація адміністратора - Пекарня в Ходосівці</title>
+    <link rel="stylesheet" href="auth-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <img src="logo.jpg" alt="Пекарня в Ходосівці">
+                <h1>Ініціалізація головного адміністратора</h1>
+                <p>Створення першого адміністратора системи</p>
+            </div>
+
+            <form id="init-form">
+                <div class="form-group">
+                    <label for="admin-name">Ім'я адміністратора</label>
+                    <input type="text" id="admin-name" class="form-input" placeholder="Ваше ім'я" required>
+                </div>
+                <div class="form-group">
+                    <label for="admin-phone">Телефон</label>
+                    <input type="tel" id="admin-phone" class="form-input" value="+380688834630" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="admin-password">Пароль</label>
+                    <div class="password-container">
+                        <input type="password" id="admin-password" class="form-input" placeholder="Введіть пароль" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('admin-password')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="admin-confirm">Підтвердіть пароль</label>
+                    <div class="password-container">
+                        <input type="password" id="admin-confirm" class="form-input" placeholder="Повторіть пароль" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('admin-confirm')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-user-shield"></i> Створити головного адміністратора
+                </button>
+                <div class="error-message" id="init-error"></div>
+                <div class="success-message" id="init-success"></div>
+            </form>
+
+            <div class="back-link">
+                <a href="index.html">
+                    <i class="fas fa-arrow-left"></i> Повернутися на сайт
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle password visibility
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const toggleBtn = input.parentNode.querySelector('.password-toggle i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                toggleBtn.className = 'fas fa-eye-slash';
+            } else {
+                input.type = 'password';
+                toggleBtn.className = 'fas fa-eye';
+            }
+        }
+        
+        // Show message
+        function showMessage(elementId, message, isError = true) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.style.display = 'block';
+            element.className = isError ? 'error-message' : 'success-message';
+        }
+        
+        // Handle form submission
+        document.getElementById('init-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('admin-name').value;
+            const phone = document.getElementById('admin-phone').value;
+            const password = document.getElementById('admin-password').value;
+            const confirm = document.getElementById('admin-confirm').value;
+            
+            // Validation
+            if (password.length < 6) {
+                showMessage('init-error', 'Пароль повинен містити мінімум 6 символів');
+                return;
+            }
+            
+            if (password !== confirm) {
+                showMessage('init-error', 'Паролі не співпадають');
+                return;
+            }
+            
+            // Create admin user
+            const newUser = {
+                id: Date.now(),
+                name,
+                phone,
+                password,
+                createdAt: new Date().toISOString()
+            };
+            
+            // Add to users list
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // Add to admins list
+            const admins = JSON.parse(localStorage.getItem('admins') || '[]');
+            const newAdmin = {
+                phone: phone,
+                level: 'admin',
+                addedAt: new Date().toISOString()
+            };
+            admins.push(newAdmin);
+            localStorage.setItem('admins', JSON.stringify(admins));
+            
+            showMessage('init-success', 'Головного адміністратора створено! Тепер ви можете увійти в адмін панель.', false);
+            
+            setTimeout(() => {
+                window.location.href = 'admin-login.html';
+            }, 2000);
+        });
+    </script>
+</body>
+</html> 

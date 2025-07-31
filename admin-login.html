@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вхід в адмін панель - Пекарня в Ходосівці</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDF5E6;
+            color: #4D372C;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .login-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(77, 55, 44, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .logo {
+            margin-bottom: 2rem;
+        }
+        
+        .logo img {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        
+        h1 {
+            color: #4D372C;
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .subtitle {
+            color: #8B7355;
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #4D372C;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #DBC2A6;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #4D372C;
+        }
+        
+        .password-container {
+            position: relative;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #8B7355;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .btn-primary {
+            background-color: #4D372C;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #8B7355;
+        }
+        
+        .error-message {
+            color: #d32f2f;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+        
+        .back-link {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        .back-link a {
+            color: #4D372C;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .back-link a:hover {
+            color: #8B7355;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <img src="logo.jpg" alt="Пекарня в Ходосівці">
+        </div>
+        
+        <h1>Вхід в адмін панель</h1>
+        <p class="subtitle">Введіть пароль для доступу</p>
+        
+        <form id="login-form">
+            <div class="form-group">
+                <label for="phone">Телефон</label>
+                <input type="tel" id="phone" class="form-input" placeholder="+380" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <div class="password-container">
+                    <input type="password" id="password" class="form-input" placeholder="Введіть пароль" required>
+                    <button type="button" class="password-toggle" onclick="togglePassword()">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-sign-in-alt"></i> Увійти
+            </button>
+            
+            <div class="error-message" id="error-message">
+                Неправильний пароль. Спробуйте ще раз.
+            </div>
+        </form>
+        
+        <div class="back-link">
+            <a href="index.html">
+                <i class="fas fa-arrow-left"></i> Повернутися на сайт
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Пароль для адмін панелі (можна змінити)
+        const ADMIN_PASSWORD = 'bakery2024';
+        
+        // Toggle password visibility
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleBtn = document.querySelector('.password-toggle i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleBtn.className = 'fas fa-eye-slash';
+            } else {
+                passwordInput.type = 'password';
+                toggleBtn.className = 'fas fa-eye';
+            }
+        }
+        
+        // Handle form submission
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
+            
+            // Check if user exists and is admin
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const user = users.find(u => u.phone === phone && u.password === password);
+            
+            if (user) {
+                // Check if user is admin
+                const admins = JSON.parse(localStorage.getItem('admins') || '[]');
+                const isAdmin = admins.find(a => a.phone === phone);
+                
+                if (isAdmin) {
+                    // Store login state
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    localStorage.setItem('adminLoggedIn', 'true');
+                    localStorage.setItem('adminLoginTime', Date.now());
+                    
+                    // Redirect to admin panel
+                    window.location.href = 'admin.html';
+                } else {
+                    errorMessage.textContent = 'У вас немає прав доступу до адмін панелі';
+                    errorMessage.style.display = 'block';
+                }
+            } else {
+                errorMessage.textContent = 'Неправильний телефон або пароль';
+                errorMessage.style.display = 'block';
+                document.getElementById('password').value = '';
+                document.getElementById('password').focus();
+            }
+        });
+        
+                            // Check if already logged in
+                    window.addEventListener('load', function() {
+                        const isLoggedIn = localStorage.getItem('adminLoggedIn');
+                        const loginTime = localStorage.getItem('adminLoginTime');
+                        const currentTime = Date.now();
+
+                        // Auto-logout after 24 hours
+                        if (isLoggedIn && loginTime && (currentTime - loginTime) < 24 * 60 * 60 * 1000) {
+                            // Check if user exists in admins list
+                            const admins = JSON.parse(localStorage.getItem('admins') || '[]');
+                            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                            
+                            if (admins.length > 0 && currentUser) {
+                                const userAdmin = admins.find(a => a.phone === currentUser.phone);
+                                if (userAdmin) {
+                                    window.location.href = 'admin.html';
+                                }
+                            }
+                        }
+                    });
+    </script>
+</body>
+</html> 

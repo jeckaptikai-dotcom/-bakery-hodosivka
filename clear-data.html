@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Очищення даних - Пекарня в Ходосівці</title>
+    <link rel="stylesheet" href="auth-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <img src="logo.jpg" alt="Пекарня в Ходосівці">
+                <h1>Очищення даних</h1>
+                <p>Це очистить всі дані сайту</p>
+            </div>
+
+            <div style="text-align: center; margin: 30px 0;">
+                <button class="btn btn-primary" onclick="clearAllData()">
+                    <i class="fas fa-trash"></i> Очистити всі дані
+                </button>
+                
+                <button class="btn btn-secondary" onclick="window.location.href='index.html'" style="margin-top: 15px;">
+                    <i class="fas fa-home"></i> Повернутися на головну
+                </button>
+            </div>
+
+            <div class="success-message" id="clear-success" style="display: none;">
+                Дані очищено! Тепер можете створити адміністратора.
+            </div>
+
+            <div class="back-link">
+                <a href="init-admin.html">
+                    <i class="fas fa-user-shield"></i> Створити адміністратора
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function clearAllData() {
+            // Очистити всі дані
+            localStorage.clear();
+            
+            // Показати повідомлення
+            document.getElementById('clear-success').style.display = 'block';
+            
+            // Перенаправити через 2 секунди
+            setTimeout(() => {
+                window.location.href = 'init-admin.html';
+            }, 2000);
+        }
+    </script>
+</body>
+</html> 
