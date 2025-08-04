@@ -210,7 +210,21 @@ function checkAdminStatus() {
     
     if (isAdmin) {
         adminLink.style.display = 'block';
-        adminLink.textContent = isAdmin.level === 'admin' ? 'Адмін' : 'Модератор';
+        let displayText = '';
+        switch(isAdmin.level) {
+            case 'owner':
+                displayText = 'Власник';
+                break;
+            case 'admin':
+                displayText = 'Адмін';
+                break;
+            case 'moderator':
+                displayText = 'Модератор';
+                break;
+            default:
+                displayText = 'Адмін';
+        }
+        adminLink.textContent = displayText;
     } else {
         adminLink.style.display = 'none';
     }

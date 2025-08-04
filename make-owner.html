@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Зробити власником - Пекарня в Ходосівці</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .btn {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        .btn:hover {
+            background: #45a049;
+        }
+        .info {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .form-group {
+            margin: 15px 0;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>👑 Зробити власником</h1>
+        
+        <div class="info">
+            <h3>📋 Інструкція:</h3>
+            <ol>
+                <li>Введіть ваш телефон та пароль</li>
+                <li>Натисніть "Зробити власником"</li>
+                <li>Перейдіть на сторінку входу</li>
+                <li>Увійдіть з вашими даними</li>
+            </ol>
+        </div>
+
+        <form id="owner-form">
+            <div class="form-group">
+                <label for="phone">Ваш телефон:</label>
+                <input type="tel" id="phone" placeholder="+380" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Ваш пароль:</label>
+                <input type="password" id="password" placeholder="Мінімум 6 символів" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="name">Ваше ім'я:</label>
+                <input type="text" id="name" placeholder="Ваше ім'я" required>
+            </div>
+        </form>
+
+        <button class="btn" onclick="makeOwner()">👑 Зробити власником</button>
+        <button class="btn" onclick="window.location.href='admin-login.html'">Перейти до входу</button>
+        <button class="btn" onclick="checkStatus()">Перевірити статус</button>
+
+        <div class="info">
+            <h3>🔑 Після створення:</h3>
+            <p>Ви зможете увійти як <strong>👑 Власник</strong> з найвищими правами в системі.</p>
+        </div>
+
+        <div id="status"></div>
+    </div>
+
+    <script>
+        function makeOwner() {
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+            const name = document.getElementById('name').value;
+            
+            if (!phone || !password || !name) {
+                alert('Будь ласка, заповніть всі поля');
+                return;
+            }
+            
+            if (password.length < 6) {
+                alert('Пароль повинен містити мінімум 6 символів');
+                return;
+            }
+            
+            // Створюємо користувача
+            const user = {
+                id: Date.now(),
+                name: name,
+                phone: phone,
+                password: password,
+                createdAt: new Date().toISOString()
+            };
+
+            // Додаємо до списку користувачів
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const existingUser = users.find(u => u.phone === phone);
+            if (existingUser) {
+                existingUser.name = name;
+                existingUser.password = password;
+                existingUser.updatedAt = new Date().toISOString();
+            } else {
+                users.push(user);
+            }
+            localStorage.setItem('users', JSON.stringify(users));
+
+            // Додаємо до списку адміністраторів як власника
+            const admins = JSON.parse(localStorage.getItem('admins') || '[]');
+            const existingAdmin = admins.find(a => a.phone === phone);
+            if (existingAdmin) {
+                existingAdmin.level = 'owner';
+                existingAdmin.updatedAt = new Date().toISOString();
+            } else {
+                const owner = {
+                    phone: phone,
+                    level: 'owner',
+                    addedAt: new Date().toISOString()
+                };
+                admins.push(owner);
+            }
+            localStorage.setItem('admins', JSON.stringify(admins));
+
+            alert('✅ Власника створено! Тепер можете увійти в систему.');
+        }
+
+        function checkStatus() {
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const admins = JSON.parse(localStorage.getItem('admins') || '[]');
+            
+            const owner = admins.find(a => a.level === 'owner');
+            const regularAdmins = admins.filter(a => a.level === 'admin');
+            const moderators = admins.filter(a => a.level === 'moderator');
+            
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = `
+                <div class="info">
+                    <h3>📊 Статус системи:</h3>
+                    <p>Користувачів: ${users.length}</p>
+                    <p>👑 Власників: ${owner ? '1' : '0'} ${owner ? '✅' : '❌'}</p>
+                    <p>⚙️ Адміністраторів: ${regularAdmins.length}</p>
+                    <p>🔧 Модераторів: ${moderators.length}</p>
+                    <p>Всього адміністраторів: ${admins.length}</p>
+                </div>
+            `;
+        }
+
+        // Перевіряємо статус при завантаженні
+        window.onload = checkStatus;
+    </script>
+</body>
+</html> 

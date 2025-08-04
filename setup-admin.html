@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Швидке налаштування адміністратора</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .btn {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        .btn:hover {
+            background: #45a049;
+        }
+        .info {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Швидке налаштування адміністратора</h1>
+        
+        <div class="info">
+            <h3>📋 Інструкція:</h3>
+            <ol>
+                <li>Натисніть кнопку "Створити адміністратора"</li>
+                <li>Перейдіть на сторінку входу</li>
+                <li>Увійдіть з даними нижче</li>
+            </ol>
+        </div>
+
+        <button class="btn" onclick="createAdmin()">Створити адміністратора</button>
+        <button class="btn" onclick="window.location.href='add-owner.html'">Додати власника</button>
+        <button class="btn" onclick="window.location.href='admin-login.html'">Перейти до входу</button>
+        <button class="btn" onclick="checkStatus()">Перевірити статус</button>
+
+        <div class="info">
+            <h3>🔑 Дані для входу:</h3>
+            <p><strong>Телефон:</strong> +380688834630</p>
+            <p><strong>Пароль:</strong> bakery2024</p>
+        </div>
+
+        <div id="status"></div>
+    </div>
+
+    <script>
+        function createAdmin() {
+            // Створюємо користувача
+            const user = {
+                id: Date.now(),
+                name: "Головний адміністратор",
+                phone: "+380688834630",
+                password: "bakery2024",
+                createdAt: new Date().toISOString()
+            };
+
+            // Додаємо до списку користувачів
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            users.push(user);
+            localStorage.setItem('users', JSON.stringify(users));
+
+            // Додаємо до списку адміністраторів
+            const admins = JSON.parse(localStorage.getItem('admins') || '[]');
+            const admin = {
+                phone: "+380688834630",
+                level: "admin",
+                addedAt: new Date().toISOString()
+            };
+            admins.push(admin);
+            localStorage.setItem('admins', JSON.stringify(admins));
+
+            alert('✅ Адміністратор створено! Тепер можете увійти.');
+        }
+
+        function checkStatus() {
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const admins = JSON.parse(localStorage.getItem('admins') || '[]');
+            
+            const owner = admins.find(a => a.level === 'owner');
+            const regularAdmins = admins.filter(a => a.level === 'admin');
+            const moderators = admins.filter(a => a.level === 'moderator');
+            
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = `
+                <div class="info">
+                    <h3>📊 Статус системи:</h3>
+                    <p>Користувачів: ${users.length}</p>
+                    <p>Власників: ${owner ? '1' : '0'} ${owner ? '✅' : '❌'}</p>
+                    <p>Адміністраторів: ${regularAdmins.length}</p>
+                    <p>Модераторів: ${moderators.length}</p>
+                    <p>Всього адміністраторів: ${admins.length}</p>
+                </div>
+            `;
+        }
+
+        // Перевіряємо статус при завантаженні
+        window.onload = checkStatus;
+    </script>
+</body>
+</html> 

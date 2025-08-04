@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Додати власника - Пекарня в Ходосівці</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDF5E6;
+            color: #4D372C;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(77, 55, 44, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+        
+        .logo {
+            margin-bottom: 2rem;
+        }
+        
+        .logo img {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        
+        h1 {
+            color: #4D372C;
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .subtitle {
+            color: #8B7355;
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #4D372C;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #DBC2A6;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #4D372C;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .btn-primary {
+            background-color: #4D372C;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #8B7355;
+        }
+        
+        .btn-secondary {
+            background-color: #DBC2A6;
+            color: #4D372C;
+            margin-top: 0.5rem;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #C4A992;
+        }
+        
+        .success-message {
+            color: #2E7D32;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+        
+        .error-message {
+            color: #d32f2f;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+        
+        .info-box {
+            background-color: #E3F2FD;
+            border: 1px solid #2196F3;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        
+        .info-box h3 {
+            color: #1976D2;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        .info-box p {
+            color: #424242;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="logo.jpg" alt="Пекарня в Ходосівці">
+        </div>
+        
+        <h1>Додати власника системи</h1>
+        <p class="subtitle">Створення головного власника пекарні</p>
+        
+        <div class="info-box">
+            <h3><i class="fas fa-info-circle"></i> Інформація</h3>
+            <p>Власник має найвищі права в системі. Тільки власник може додавати та видаляти інших адміністраторів.</p>
+        </div>
+        
+        <form id="owner-form">
+            <div class="form-group">
+                <label for="owner-name">Ваше ім'я</label>
+                <input type="text" id="owner-name" class="form-input" placeholder="Введіть ваше ім'я" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="owner-phone">Ваш телефон</label>
+                <input type="tel" id="owner-phone" class="form-input" placeholder="+380" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="owner-password">Пароль</label>
+                <input type="password" id="owner-password" class="form-input" placeholder="Мінімум 6 символів" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="owner-confirm">Підтвердіть пароль</label>
+                <input type="password" id="owner-confirm" class="form-input" placeholder="Повторіть пароль" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-crown"></i> Створити власника
+            </button>
+            
+            <button type="button" class="btn btn-secondary" onclick="window.location.href='admin-login.html'">
+                <i class="fas fa-arrow-left"></i> Повернутися до входу
+            </button>
+            
+            <div class="success-message" id="success-message">
+                ✅ Власника створено! Тепер ви можете увійти в систему.
+            </div>
+            
+            <div class="error-message" id="error-message">
+                Помилка при створенні власника.
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Handle form submission
+        document.getElementById('owner-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('owner-name').value;
+            const phone = document.getElementById('owner-phone').value;
+            const password = document.getElementById('owner-password').value;
+            const confirm = document.getElementById('owner-confirm').value;
+            
+            // Validation
+            if (password.length < 6) {
+                showError('Пароль повинен містити мінімум 6 символів');
+                return;
+            }
+            
+            if (password !== confirm) {
+                showError('Паролі не співпадають');
+                return;
+            }
+            
+            if (!phone.startsWith('+380')) {
+                showError('Телефон повинен починатися з +380');
+                return;
+            }
+            
+            // Create owner user
+            const newUser = {
+                id: Date.now(),
+                name: name,
+                phone: phone,
+                password: password,
+                createdAt: new Date().toISOString()
+            };
+            
+            // Add to users list
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            // Check if user already exists
+            const existingUser = users.find(u => u.phone === phone);
+            if (existingUser) {
+                // Update existing user
+                existingUser.name = name;
+                existingUser.password = password;
+                existingUser.updatedAt = new Date().toISOString();
+            } else {
+                // Add new user
+                users.push(newUser);
+            }
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // Add to admins list as owner
+            const admins = JSON.parse(localStorage.getItem('admins') || '[]');
+            
+            // Check if admin already exists
+            const existingAdmin = admins.find(a => a.phone === phone);
+            if (existingAdmin) {
+                // Update existing admin to owner
+                existingAdmin.level = 'owner';
+                existingAdmin.updatedAt = new Date().toISOString();
+            } else {
+                // Add new owner
+                const newOwner = {
+                    phone: phone,
+                    level: 'owner',
+                    addedAt: new Date().toISOString()
+                };
+                admins.push(newOwner);
+            }
+            localStorage.setItem('admins', JSON.stringify(admins));
+            
+            showSuccess('Власника створено! Тепер ви можете увійти в систему.');
+            
+            // Redirect after 2 seconds
+            setTimeout(() => {
+                window.location.href = 'admin-login.html';
+            }, 2000);
+        });
+        
+        function showSuccess(message) {
+            document.getElementById('success-message').textContent = message;
+            document.getElementById('success-message').style.display = 'block';
+            document.getElementById('error-message').style.display = 'none';
+        }
+        
+        function showError(message) {
+            document.getElementById('error-message').textContent = message;
+            document.getElementById('error-message').style.display = 'block';
+            document.getElementById('success-message').style.display = 'none';
+        }
+        
+        // Check if owner already exists
+        window.addEventListener('load', function() {
+            const admins = JSON.parse(localStorage.getItem('admins') || '[]');
+            const owner = admins.find(a => a.level === 'owner');
+            
+            if (owner) {
+                document.getElementById('success-message').textContent = 'Власник вже існує в системі!';
+                document.getElementById('success-message').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html> 

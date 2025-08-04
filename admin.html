@@ -17,6 +17,7 @@
                         <img src="logo.jpg" alt="Пекарня" class="logo-img">
                         <h1>Адмін панель</h1>
                         <p style="font-size: 0.9rem; color: #8B7355; margin: 0;">Творець: @mm.slmn</p>
+                        <p id="user-level" style="font-size: 0.8rem; color: #4D372C; margin: 0; font-weight: 500;"></p>
                     </div>
                 <div class="header-actions">
                     <button class="btn btn-secondary" onclick="previewSite()">
@@ -266,12 +267,53 @@
             }
         }
         
+        // Display user level
+        function displayUserLevel() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const userLevelElement = document.getElementById('user-level');
+            
+            if (currentUser && userLevelElement) {
+                const admins = JSON.parse(localStorage.getItem('admins') || '[]');
+                const userAdmin = admins.find(a => a.phone === currentUser.phone);
+                
+                if (userAdmin) {
+                    let levelText = '';
+                    let levelColor = '';
+                    
+                    switch(userAdmin.level) {
+                        case 'owner':
+                            levelText = '👑 Власник';
+                            levelColor = '#FFD700';
+                            break;
+                        case 'admin':
+                            levelText = '⚙️ Адміністратор';
+                            levelColor = '#4CAF50';
+                            break;
+                        case 'moderator':
+                            levelText = '🔧 Модератор';
+                            levelColor = '#2196F3';
+                            break;
+                        default:
+                            levelText = '👤 Користувач';
+                            levelColor = '#9E9E9E';
+                    }
+                    
+                    userLevelElement.textContent = `${currentUser.name} - ${levelText}`;
+                    userLevelElement.style.color = levelColor;
+                } else {
+                    userLevelElement.textContent = `${currentUser.name} - 👤 Користувач`;
+                    userLevelElement.style.color = '#9E9E9E';
+                }
+            }
+        }
+        
         // Check permissions on page load
         window.addEventListener('load', function() {
             if (!checkAuth()) {
                 return;
             }
             checkAdminPermissions();
+            displayUserLevel();
         });
     </script>
 </body>

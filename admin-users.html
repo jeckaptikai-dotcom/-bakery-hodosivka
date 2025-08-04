@@ -39,6 +39,7 @@
                 <div class="form-group">
                     <label>Рівень доступу</label>
                     <select id="admin-level" class="form-select">
+                        <option value="owner">Власник</option>
                         <option value="admin">Адміністратор</option>
                         <option value="moderator">Модератор</option>
                     </select>
@@ -68,6 +69,7 @@
                     
                     <p><strong>Рівні доступу:</strong></p>
                     <ul>
+                        <li><strong>Власник</strong> - повний доступ, може додавати/видаляти адміністраторів</li>
                         <li><strong>Адміністратор</strong> - повний доступ до всіх функцій</li>
                         <li><strong>Модератор</strong> - може редагувати контент, але не може додавати інших адміністраторів</li>
                     </ul>
@@ -151,7 +153,7 @@
                         <div class="menu-item-title">
                             <i class="fas fa-user-shield"></i>
                             ${fullName}
-                            <span class="admin-level">(${admin.level})</span>
+                            <span class="admin-level">(${getLevelDisplay(admin.level)})</span>
                         </div>
                         <div class="menu-item-actions">
                             <button class="btn btn-secondary" onclick="removeAdmin(${index})">
@@ -178,6 +180,20 @@
             }
         }
 
+        // Get level display text
+        function getLevelDisplay(level) {
+            switch(level) {
+                case 'owner':
+                    return '👑 Власник';
+                case 'admin':
+                    return '⚙️ Адміністратор';
+                case 'moderator':
+                    return '🔧 Модератор';
+                default:
+                    return level;
+            }
+        }
+        
         // Save admins (for consistency)
         function saveAdmins() {
             alert('Адміністратори збережено!');
