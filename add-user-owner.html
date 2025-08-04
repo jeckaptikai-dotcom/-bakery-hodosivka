@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Додати власника - Пекарня в Ходосівці</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .btn {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        .btn:hover {
+            background: #45a049;
+        }
+        .info {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>👑 Додати власника</h1>
+        
+        <div class="info">
+            <h3>📋 Інформація:</h3>
+            <p>Ім'я: <strong>Михайло</strong></p>
+            <p>Телефон: <strong>+380688834630</strong></p>
+            <p>Рівень: <strong>👑 Власник</strong></p>
+        </div>
+
+        <button class="btn" onclick="addOwner()">👑 Додати власника</button>
+        <button class="btn" onclick="window.location.href='admin-login.html'">Перейти до входу</button>
+        <button class="btn" onclick="checkStatus()">Перевірити статус</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function addOwner() {
+            // Дані власника (використовуємо існуючі дані користувача)
+            const ownerData = {
+                id: Date.now(),
+                name: "Михайло",
+                phone: "+380688834630",
+                password: "bakery2024", // або ваш існуючий пароль
+                createdAt: new Date().toISOString()
+            };
+
+            // Додаємо до списку користувачів
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const existingUser = users.find(u => u.phone === ownerData.phone);
+            
+            if (existingUser) {
+                existingUser.name = ownerData.name;
+                existingUser.password = ownerData.password;
+                existingUser.updatedAt = new Date().toISOString();
+            } else {
+                users.push(ownerData);
+            }
+            localStorage.setItem('users', JSON.stringify(users));
+
+            // Додаємо до списку адміністраторів як власника
+            const admins = JSON.parse(localStorage.getItem('admins') || '[]');
+            const existingAdmin = admins.find(a => a.phone === ownerData.phone);
+            
+            if (existingAdmin) {
+                existingAdmin.level = 'owner';
+                existingAdmin.updatedAt = new Date().toISOString();
+            } else {
+                const owner = {
+                    phone: ownerData.phone,
+                    level: 'owner',
+                    addedAt: new Date().toISOString()
+                };
+                admins.push(owner);
+            }
+            localStorage.setItem('admins', JSON.stringify(admins));
+
+            showResult('✅ Власника додано! Телефон: +380688834630, Пароль: bakery2024', 'success');
+        }
+
+        function checkStatus() {
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const admins = JSON.parse(localStorage.getItem('admins') || '[]');
+            
+            const owner = admins.find(a => a.level === 'owner');
+            const user = users.find(u => u.phone === '+380688834630');
+            
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <div class="info">
+                    <h3>📊 Статус системи:</h3>
+                    <p>Користувачів: ${users.length}</p>
+                    <p>👑 Власників: ${owner ? '1' : '0'} ${owner ? '✅' : '❌'}</p>
+                    <p>Всього адміністраторів: ${admins.length}</p>
+                    ${user ? '<p>✅ Користувач +380688834630 існує</p>' : '<p>❌ Користувач +380688834630 не знайдений</p>'}
+                </div>
+            `;
+        }
+
+        function showResult(message, type) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `<div class="${type}">${message}</div>`;
+        }
+
+        // Автоматично додаємо власника при завантаженні
+        window.onload = function() {
+            addOwner();
+            checkStatus();
+        };
+    </script>
+</body>
+</html> 
