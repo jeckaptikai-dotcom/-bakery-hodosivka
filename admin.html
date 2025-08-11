@@ -204,9 +204,8 @@
                 <div class="form-group">
                     <label>Категорія</label>
                     <select id="item-category" class="form-select">
-                        <option value="bread">Хліб</option>
-                        <option value="pastry">Випічка</option>
-                        <option value="cakes">Торти</option>
+                        <option value="">Виберіть категорію</option>
+                        <!-- Categories will be loaded here -->
                     </select>
                 </div>
                 <div class="form-group">
@@ -393,31 +392,46 @@
             
             if (categories.length === 0) {
                 container.innerHTML = '<p>Поки що немає категорій</p>';
-                return;
+            } else {
+                container.innerHTML = categories.map((category, index) => `
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <div class="menu-item-title">
+                                <i class="fas fa-tag"></i>
+                                ${category.name}
+                                <span class="category-code">(${category.code})</span>
+                            </div>
+                            <div class="menu-item-actions">
+                                <button class="btn btn-secondary" onclick="editCategory(${index})">
+                                    <i class="fas fa-edit"></i> Редагувати
+                                </button>
+                                <button class="btn btn-secondary" onclick="deleteCategory(${index})">
+                                    <i class="fas fa-trash"></i> Видалити
+                                </button>
+                            </div>
+                        </div>
+                        <div class="menu-item-details">
+                            ${category.description || 'Немає опису'}
+                        </div>
+                    </div>
+                `).join('');
             }
             
-            container.innerHTML = categories.map((category, index) => `
-                <div class="menu-item">
-                    <div class="menu-item-header">
-                        <div class="menu-item-title">
-                            <i class="fas fa-tag"></i>
-                            ${category.name}
-                            <span class="category-code">(${category.code})</span>
-                        </div>
-                        <div class="menu-item-actions">
-                            <button class="btn btn-secondary" onclick="editCategory(${index})">
-                                <i class="fas fa-edit"></i> Редагувати
-                            </button>
-                            <button class="btn btn-secondary" onclick="deleteCategory(${index})">
-                                <i class="fas fa-trash"></i> Видалити
-                            </button>
-                        </div>
-                    </div>
-                    <div class="menu-item-details">
-                        ${category.description || 'Немає опису'}
-                    </div>
-                </div>
-            `).join('');
+            // Also update the category select in menu modal
+            loadCategorySelect();
+        }
+        
+        function loadCategorySelect() {
+            const categories = JSON.parse(localStorage.getItem('categories') || '[]');
+            const select = document.getElementById('item-category');
+            
+            if (select) {
+                let options = '<option value="">Виберіть категорію</option>';
+                categories.forEach(category => {
+                    options += `<option value="${category.code}">${category.name}</option>`;
+                });
+                select.innerHTML = options;
+            }
         }
         
         function deleteCategory(index) {
@@ -472,6 +486,166 @@
             alert('Категорію оновлено!');
         }
         
+        // Menu items management functions
+        function addMenuItem() {
+            document.getElementById('menu-modal').style.display = 'block';
+            // Reset form
+            document.getElementById('item-name').value = '';
+            document.getElementById('item-description').value = '';
+            document.getElementById('item-price').value = '';
+            document.getElementById('item-category').value = '';
+            document.getElementById('item-image').value = '';
+            
+            // Change modal title and button
+            document.querySelector('#menu-modal .modal-header h3').textContent = 'Додати продукт';
+            document.querySelector('#menu-modal .modal-footer .btn-primary').onclick = function() {
+                saveMenuItem();
+            };
+        }
+        
+        function closeModal() {
+            document.getElementById('menu-modal').style.display = 'none';
+        }
+        
+        function saveMenuItem() {
+            const name = document.getElementById('item-name').value;
+            const description = document.getElementById('item-description').value;
+            const price = document.getElementById('item-price').value;
+            const category = document.getElementById('item-category').value;
+            const image = document.getElementById('item-image').value;
+            
+            if (!name || !price || !category) {
+                alert('Будь ласка, заповніть назву, ціну та категорію продукту');
+                return;
+            }
+            
+            const menuItem = {
+                id: Date.now(),
+                name: name,
+                description: description,
+                price: price + ' грн',
+                category: category,
+                image: image || 'default-food.jpg',
+                createdAt: new Date().toISOString()
+            };
+            
+            // Get existing menu items
+            const menuItems = JSON.parse(localStorage.getItem('menuItems') || '[]');
+            menuItems.push(menuItem);
+            localStorage.setItem('menuItems', JSON.stringify(menuItems));
+            
+            closeModal();
+            loadMenuItems();
+            alert('Продукт додано!');
+        }
+        
+        function loadMenuItems() {
+            const menuItems = JSON.parse(localStorage.getItem('menuItems') || '[]');
+            const container = document.getElementById('menu-items');
+            
+            if (menuItems.length === 0) {
+                container.innerHTML = '<p>Поки що немає продуктів</p>';
+                return;
+            }
+            
+            container.innerHTML = menuItems.map((item, index) => `
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-title">
+                            <i class="fas fa-utensils"></i>
+                            ${item.name}
+                            <span class="price">${item.price}</span>
+                        </div>
+                        <div class="menu-item-actions">
+                            <button class="btn btn-secondary" onclick="editMenuItem(${index})">
+                                <i class="fas fa-edit"></i> Редагувати
+                            </button>
+                            <button class="btn btn-secondary" onclick="deleteMenuItem(${index})">
+                                <i class="fas fa-trash"></i> Видалити
+                            </button>
+                        </div>
+                    </div>
+                    <div class="menu-item-details">
+                        <p><strong>Опис:</strong> ${item.description || 'Немає опису'}</p>
+                        <p><strong>Категорія:</strong> ${item.category}</p>
+                        <p><strong>Зображення:</strong> ${item.image}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function deleteMenuItem(index) {
+            if (confirm('Ви впевнені, що хочете видалити цей продукт?')) {
+                const menuItems = JSON.parse(localStorage.getItem('menuItems') || '[]');
+                menuItems.splice(index, 1);
+                localStorage.setItem('menuItems', JSON.stringify(menuItems));
+                loadMenuItems();
+                alert('Продукт видалено!');
+            }
+        }
+        
+        function editMenuItem(index) {
+            const menuItems = JSON.parse(localStorage.getItem('menuItems') || '[]');
+            const item = menuItems[index];
+            
+            document.getElementById('item-name').value = item.name;
+            document.getElementById('item-description').value = item.description || '';
+            document.getElementById('item-price').value = item.price.replace(' грн', '');
+            document.getElementById('item-category').value = item.category;
+            document.getElementById('item-image').value = item.image;
+            
+            // Change modal title and button
+            document.querySelector('#menu-modal .modal-header h3').textContent = 'Редагувати продукт';
+            document.querySelector('#menu-modal .modal-footer .btn-primary').onclick = function() {
+                updateMenuItem(index);
+            };
+            
+            document.getElementById('menu-modal').style.display = 'block';
+        }
+        
+        function updateMenuItem(index) {
+            const name = document.getElementById('item-name').value;
+            const description = document.getElementById('item-description').value;
+            const price = document.getElementById('item-price').value;
+            const category = document.getElementById('item-category').value;
+            const image = document.getElementById('item-image').value;
+            
+            if (!name || !price || !category) {
+                alert('Будь ласка, заповніть назву, ціну та категорію продукту');
+                return;
+            }
+            
+            const menuItems = JSON.parse(localStorage.getItem('menuItems') || '[]');
+            menuItems[index] = {
+                ...menuItems[index],
+                name: name,
+                description: description,
+                price: price + ' грн',
+                category: category,
+                image: image || 'default-food.jpg',
+                updatedAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem('menuItems', JSON.stringify(menuItems));
+            closeModal();
+            loadMenuItems();
+            alert('Продукт оновлено!');
+        }
+        
+        // Image preview function
+        function previewImage(input) {
+            const file = input.files[0];
+            const preview = document.getElementById('image-preview');
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.innerHTML = `<img src="${e.target.result}" style="max-width: 200px; max-height: 200px;">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
         // Check permissions on page load
         window.addEventListener('load', function() {
             if (!checkAuth()) {
@@ -480,6 +654,7 @@
             checkAdminPermissions();
             displayUserLevel();
             loadCategories(); // Load categories on page load
+            loadMenuItems(); // Load menu items on page load
         });
     </script>
 </body>
