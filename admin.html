@@ -80,7 +80,18 @@
             <!-- Menu Tab -->
             <div class="tab-content" id="menu">
                 <div class="section">
-                    <h3>Управління меню</h3>
+                    <h3>Управління категоріями</h3>
+                    <button class="btn btn-primary" onclick="addCategory()">
+                        <i class="fas fa-plus"></i> Додати категорію
+                    </button>
+                    
+                    <div class="categories" id="categories">
+                        <!-- Categories will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3>Управління продуктами</h3>
                     <button class="btn btn-primary" onclick="addMenuItem()">
                         <i class="fas fa-plus"></i> Додати продукт
                     </button>
@@ -140,6 +151,34 @@
                 </div>
             </div>
         </main>
+    </div>
+
+    <!-- Modal for adding categories -->
+    <div class="modal" id="category-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Додати категорію</h3>
+                <button class="close-btn" onclick="closeCategoryModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Назва категорії</label>
+                    <input type="text" id="category-name" class="form-input" placeholder="Наприклад: Хліб">
+                </div>
+                <div class="form-group">
+                    <label>Опис категорії</label>
+                    <textarea id="category-description" class="form-textarea" placeholder="Короткий опис категорії"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Код категорії</label>
+                    <input type="text" id="category-code" class="form-input" placeholder="Наприклад: bread">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeCategoryModal()">Скасувати</button>
+                <button class="btn btn-primary" onclick="saveCategory()">Зберегти</button>
+            </div>
+        </div>
     </div>
 
     <!-- Modal for adding menu items -->
@@ -307,6 +346,132 @@
             }
         }
         
+        // Category management functions
+        function addCategory() {
+            document.getElementById('category-modal').style.display = 'block';
+        }
+        
+        function closeCategoryModal() {
+            document.getElementById('category-modal').style.display = 'none';
+            // Clear form
+            document.getElementById('category-name').value = '';
+            document.getElementById('category-description').value = '';
+            document.getElementById('category-code').value = '';
+        }
+        
+        function saveCategory() {
+            const name = document.getElementById('category-name').value;
+            const description = document.getElementById('category-description').value;
+            const code = document.getElementById('category-code').value;
+            
+            if (!name || !code) {
+                alert('Будь ласка, заповніть назву та код категорії');
+                return;
+            }
+            
+            const category = {
+                id: Date.now(),
+                name: name,
+                description: description,
+                code: code,
+                createdAt: new Date().toISOString()
+            };
+            
+            // Get existing categories
+            const categories = JSON.parse(localStorage.getItem('categories') || '[]');
+            categories.push(category);
+            localStorage.setItem('categories', JSON.stringify(categories));
+            
+            closeCategoryModal();
+            loadCategories();
+            alert('Категорію додано!');
+        }
+        
+        function loadCategories() {
+            const categories = JSON.parse(localStorage.getItem('categories') || '[]');
+            const container = document.getElementById('categories');
+            
+            if (categories.length === 0) {
+                container.innerHTML = '<p>Поки що немає категорій</p>';
+                return;
+            }
+            
+            container.innerHTML = categories.map((category, index) => `
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <div class="menu-item-title">
+                            <i class="fas fa-tag"></i>
+                            ${category.name}
+                            <span class="category-code">(${category.code})</span>
+                        </div>
+                        <div class="menu-item-actions">
+                            <button class="btn btn-secondary" onclick="editCategory(${index})">
+                                <i class="fas fa-edit"></i> Редагувати
+                            </button>
+                            <button class="btn btn-secondary" onclick="deleteCategory(${index})">
+                                <i class="fas fa-trash"></i> Видалити
+                            </button>
+                        </div>
+                    </div>
+                    <div class="menu-item-details">
+                        ${category.description || 'Немає опису'}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function deleteCategory(index) {
+            if (confirm('Ви впевнені, що хочете видалити цю категорію?')) {
+                const categories = JSON.parse(localStorage.getItem('categories') || '[]');
+                categories.splice(index, 1);
+                localStorage.setItem('categories', JSON.stringify(categories));
+                loadCategories();
+                alert('Категорію видалено!');
+            }
+        }
+        
+        function editCategory(index) {
+            const categories = JSON.parse(localStorage.getItem('categories') || '[]');
+            const category = categories[index];
+            
+            document.getElementById('category-name').value = category.name;
+            document.getElementById('category-description').value = category.description || '';
+            document.getElementById('category-code').value = category.code;
+            
+            // Change modal title and button
+            document.querySelector('#category-modal .modal-header h3').textContent = 'Редагувати категорію';
+            document.querySelector('#category-modal .modal-footer .btn-primary').onclick = function() {
+                updateCategory(index);
+            };
+            
+            document.getElementById('category-modal').style.display = 'block';
+        }
+        
+        function updateCategory(index) {
+            const name = document.getElementById('category-name').value;
+            const description = document.getElementById('category-description').value;
+            const code = document.getElementById('category-code').value;
+            
+            if (!name || !code) {
+                alert('Будь ласка, заповніть назву та код категорії');
+                return;
+            }
+            
+            const categories = JSON.parse(localStorage.getItem('categories') || '[]');
+            categories[index] = {
+                ...categories[index],
+                name: name,
+                description: description,
+                code: code,
+                updatedAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem('categories', JSON.stringify(categories));
+            closeCategoryModal();
+            loadCategories();
+            alert('Категорію оновлено!');
+        }
+        
         // Check permissions on page load
         window.addEventListener('load', function() {
             if (!checkAuth()) {
@@ -314,6 +479,7 @@
             }
             checkAdminPermissions();
             displayUserLevel();
+            loadCategories(); // Load categories on page load
         });
     </script>
 </body>
