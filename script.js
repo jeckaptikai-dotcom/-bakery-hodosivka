@@ -51,12 +51,17 @@ function loadMenuItems() {
     const menuItems = JSON.parse(localStorage.getItem('menuItems') || '[]');
     const container = document.getElementById('menu-grid');
     
+    console.log('Loading menu items:', menuItems); // Debug log
+    
     if (container) {
         if (menuItems.length === 0) {
             container.innerHTML = `
                 <div style="text-align: center; grid-column: 1 / -1; padding: 40px;">
                     <h3>Поки що немає продуктів</h3>
                     <p>Продукти будуть додані адміністратором</p>
+                    <button onclick="window.location.href='debug-products.html'" style="background: #2196F3; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">
+                        🔍 Діагностика
+                    </button>
                 </div>
             `;
         } else {
@@ -71,6 +76,8 @@ function loadMenuItems() {
                 </div>
             `).join('');
         }
+    } else {
+        console.error('Container menu-grid not found!'); // Debug log
     }
 }
 
