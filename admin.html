@@ -504,10 +504,18 @@
         }
         
         function closeModal() {
-            document.getElementById('menu-modal').style.display = 'none';
+            const modal = document.getElementById('menu-modal');
+            if (modal) {
+                modal.style.display = 'none';
+                console.log('Modal closed');
+            } else {
+                console.error('Modal not found');
+            }
         }
         
         function saveMenuItem() {
+            console.log('saveMenuItem called');
+            
             const name = document.getElementById('item-name').value;
             const description = document.getElementById('item-description').value;
             const price = document.getElementById('item-price').value;
@@ -516,6 +524,8 @@
             // Get image from URL field or use default
             const imageUrl = document.getElementById('item-image-url').value;
             const imageFile = document.getElementById('item-image-file').files[0];
+            
+            console.log('Form values:', { name, description, price, category, imageUrl, imageFile });
             
             if (!name || !price || !category) {
                 alert('Будь ласка, заповніть назву, ціну та категорію продукту');
@@ -541,10 +551,17 @@
                 createdAt: new Date().toISOString()
             };
             
+            console.log('Created menu item:', menuItem);
+            
             // Get existing menu items
             const menuItems = JSON.parse(localStorage.getItem('menuItems') || '[]');
             menuItems.push(menuItem);
+            
+            console.log('All menu items:', menuItems);
+            
             localStorage.setItem('menuItems', JSON.stringify(menuItems));
+            
+            console.log('Product saved to localStorage');
             
             closeModal();
             loadMenuItems();
@@ -552,15 +569,26 @@
         }
         
         function loadMenuItems() {
+            console.log('loadMenuItems called');
+            
             const menuItems = JSON.parse(localStorage.getItem('menuItems') || '[]');
             const container = document.getElementById('menu-items');
             
-            if (menuItems.length === 0) {
-                container.innerHTML = '<p>Поки що немає продуктів</p>';
+            console.log('Found menu items:', menuItems);
+            console.log('Container:', container);
+            
+            if (!container) {
+                console.error('Container menu-items not found!');
                 return;
             }
             
-            container.innerHTML = menuItems.map((item, index) => `
+            if (menuItems.length === 0) {
+                container.innerHTML = '<p>Поки що немає продуктів</p>';
+                console.log('No products to display');
+                return;
+            }
+            
+            const html = menuItems.map((item, index) => `
                 <div class="menu-item">
                     <div class="menu-item-header">
                         <div class="menu-item-title">
@@ -584,6 +612,9 @@
                     </div>
                 </div>
             `).join('');
+            
+            container.innerHTML = html;
+            console.log('Products loaded successfully');
         }
         
         function deleteMenuItem(index) {
