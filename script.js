@@ -31,7 +31,18 @@ function loadCategories() {
         
         // Re-attach event listeners
         attachCategoryListeners();
+        
+        // Show message if no categories
+        if (categories.length === 0) {
+            console.log('Категорії не знайдено. Відкрийте sync-categories.html для налаштування.');
+        }
     }
+}
+
+// Function to refresh categories (can be called from admin panel)
+function refreshCategories() {
+    loadCategories();
+    console.log('Категорії оновлено!');
 }
 
 // Menu category filtering

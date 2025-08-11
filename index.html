@@ -89,6 +89,14 @@
                 <button class="category-btn active" data-category="all">Всі</button>
                 <!-- Categories will be loaded here -->
             </div>
+            <div style="text-align: center; margin: 20px 0;">
+                <button onclick="refreshCategories()" style="background: #4CAF50; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
+                    🔄 Оновити категорії
+                </button>
+                <button onclick="window.location.href='sync-categories.html'" style="background: #2196F3; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; margin-left: 10px;">
+                    ⚙️ Налаштувати категорії
+                </button>
+            </div>
             <div class="menu-grid">
                 <div class="menu-item" data-category="bread">
                     <img src="bread1.jpg" alt="Білий хліб" class="menu-img">
