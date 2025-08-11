@@ -217,10 +217,10 @@
                         </div>
                         <div class="image-options">
                             <label>
-                                <input type="radio" name="image-source" value="file" checked> Завантажити з пристрою
+                                <input type="radio" name="image-source" value="file" checked onchange="toggleImageSource()"> Завантажити з пристрою
                             </label>
                             <label>
-                                <input type="radio" name="image-source" value="url"> URL зображення
+                                <input type="radio" name="image-source" value="url" onchange="toggleImageSource()"> URL зображення
                             </label>
                         </div>
                         <input type="text" id="item-image-url" class="form-input" placeholder="https://example.com/image.jpg" style="display: none;">
@@ -512,11 +512,23 @@
             const description = document.getElementById('item-description').value;
             const price = document.getElementById('item-price').value;
             const category = document.getElementById('item-category').value;
-            const image = document.getElementById('item-image').value;
+            
+            // Get image from URL field or use default
+            const imageUrl = document.getElementById('item-image-url').value;
+            const imageFile = document.getElementById('item-image-file').files[0];
             
             if (!name || !price || !category) {
                 alert('Будь ласка, заповніть назву, ціну та категорію продукту');
                 return;
+            }
+            
+            // Determine image source
+            let image = 'default-food.jpg';
+            if (imageUrl) {
+                image = imageUrl;
+            } else if (imageFile) {
+                // For now, just use the filename
+                image = imageFile.name;
             }
             
             const menuItem = {
@@ -525,7 +537,7 @@
                 description: description,
                 price: price + ' грн',
                 category: category,
-                image: image || 'default-food.jpg',
+                image: image,
                 createdAt: new Date().toISOString()
             };
             
@@ -592,7 +604,7 @@
             document.getElementById('item-description').value = item.description || '';
             document.getElementById('item-price').value = item.price.replace(' грн', '');
             document.getElementById('item-category').value = item.category;
-            document.getElementById('item-image').value = item.image;
+            document.getElementById('item-image-url').value = item.image;
             
             // Change modal title and button
             document.querySelector('#menu-modal .modal-header h3').textContent = 'Редагувати продукт';
@@ -608,11 +620,23 @@
             const description = document.getElementById('item-description').value;
             const price = document.getElementById('item-price').value;
             const category = document.getElementById('item-category').value;
-            const image = document.getElementById('item-image').value;
+            
+            // Get image from URL field or use default
+            const imageUrl = document.getElementById('item-image-url').value;
+            const imageFile = document.getElementById('item-image-file').files[0];
             
             if (!name || !price || !category) {
                 alert('Будь ласка, заповніть назву, ціну та категорію продукту');
                 return;
+            }
+            
+            // Determine image source
+            let image = 'default-food.jpg';
+            if (imageUrl) {
+                image = imageUrl;
+            } else if (imageFile) {
+                // For now, just use the filename
+                image = imageFile.name;
             }
             
             const menuItems = JSON.parse(localStorage.getItem('menuItems') || '[]');
@@ -622,7 +646,7 @@
                 description: description,
                 price: price + ' грн',
                 category: category,
-                image: image || 'default-food.jpg',
+                image: image,
                 updatedAt: new Date().toISOString()
             };
             
@@ -643,6 +667,22 @@
                     preview.innerHTML = `<img src="${e.target.result}" style="max-width: 200px; max-height: 200px;">`;
                 };
                 reader.readAsDataURL(file);
+            }
+        }
+        
+        // Toggle image source
+        function toggleImageSource() {
+            const fileInput = document.getElementById('item-image-file');
+            const urlInput = document.getElementById('item-image-url');
+            const fileRadio = document.querySelector('input[name="image-source"][value="file"]');
+            const urlRadio = document.querySelector('input[name="image-source"][value="url"]');
+            
+            if (fileRadio.checked) {
+                fileInput.style.display = 'block';
+                urlInput.style.display = 'none';
+            } else {
+                fileInput.style.display = 'none';
+                urlInput.style.display = 'block';
             }
         }
         
