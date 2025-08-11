@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Швидке додавання власника</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .btn { background: #4CAF50; color: white; padding: 10px 20px; border: none; margin: 10px; cursor: pointer; }
+        .info { background: #e7f3ff; padding: 15px; margin: 10px 0; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>👑 Швидке додавання власника</h1>
+    
+    <div class="info">
+        <p><strong>Телефон:</strong> +380688834630</p>
+        <p><strong>Пароль:</strong> Misiks55</p>
+    </div>
+    
+    <button class="btn" onclick="makeOwner()">👑 Зробити власником</button>
+    <button class="btn" onclick="checkStatus()">📊 Перевірити статус</button>
+    <button class="btn" onclick="window.location.href='admin-login.html'">🚪 Перейти до входу</button>
+    
+    <div id="result"></div>
+    
+    <script>
+        function makeOwner() {
+            // Створюємо користувача
+            const user = {
+                id: Date.now(),
+                name: "Власник",
+                phone: "+380688834630",
+                password: "Misiks55",
+                createdAt: new Date().toISOString()
+            };
+            
+            // Додаємо до користувачів
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const existingUser = users.find(u => u.phone === user.phone);
+            if (existingUser) {
+                existingUser.name = user.name;
+                existingUser.password = user.password;
+            } else {
+                users.push(user);
+            }
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // Додаємо до адміністраторів
+            const admins = JSON.parse(localStorage.getItem('admins') || '[]');
+            const existingAdmin = admins.find(a => a.phone === user.phone);
+            if (existingAdmin) {
+                existingAdmin.level = 'owner';
+            } else {
+                admins.push({
+                    phone: user.phone,
+                    level: 'owner',
+                    addedAt: new Date().toISOString()
+                });
+            }
+            localStorage.setItem('admins', JSON.stringify(admins));
+            
+            document.getElementById('result').innerHTML = '<div class="info">✅ Власника створено! Тепер можете увійти.</div>';
+        }
+        
+        function checkStatus() {
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const admins = JSON.parse(localStorage.getItem('admins') || '[]');
+            const owner = admins.find(a => a.level === 'owner');
+            const user = users.find(u => u.phone === '+380688834630');
+            
+            let status = '<div class="info">';
+            status += '<h3>📊 Статус:</h3>';
+            status += `<p>Користувачів: ${users.length}</p>`;
+            status += `<p>Адміністраторів: ${admins.length}</p>`;
+            status += `<p>Власник: ${owner ? '✅' : '❌'}</p>`;
+            status += `<p>Користувач +380688834630: ${user ? '✅' : '❌'}</p>`;
+            status += '</div>';
+            
+            document.getElementById('result').innerHTML = status;
+        }
+        
+        // Автоматично додаємо власника при завантаженні
+        window.onload = function() {
+            makeOwner();
+            checkStatus();
+        };
+    </script>
+</body>
+</html> 
