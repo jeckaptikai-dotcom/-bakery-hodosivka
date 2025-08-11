@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR-код для телефону - Пекарня в Ходосівці</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <style>
+        body { 
+            font-family: Arial; 
+            padding: 20px; 
+            background: #f5f5f5;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 400px;
+            margin: 50px auto;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .qr-code {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+        }
+        .btn { 
+            background: #4CAF50; 
+            color: white; 
+            padding: 15px 30px; 
+            border: none; 
+            margin: 10px; 
+            cursor: pointer; 
+            border-radius: 5px;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn:hover { background: #45a049; }
+        .info { 
+            background: #e7f3ff; 
+            padding: 15px; 
+            margin: 15px 0; 
+            border-radius: 5px; 
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 Доступ з телефону</h1>
+        
+        <div class="info">
+            <h3>📋 Інструкція:</h3>
+            <ol>
+                <li>Відскануйте QR-код камерою телефону</li>
+                <li>Або натисніть посилання нижче</li>
+                <li>Файл автоматично створить власника</li>
+                <li>Увійдіть в систему</li>
+            </ol>
+        </div>
+        
+        <div class="qr-code">
+            <h3>🔗 QR-код для швидкого доступу</h3>
+            <div id="qrcode"></div>
+            <p><small>Відскануйте камерою телефону</small></p>
+        </div>
+        
+        <a href="fix-admin.html" class="btn">🔧 Відкрити файл</a>
+        <a href="admin-login.html" class="btn">🚪 Вхід в систему</a>
+        
+        <div class="info">
+            <h3>📱 Ваші дані для входу:</h3>
+            <p><strong>Телефон:</strong> +380688834630</p>
+            <p><strong>Пароль:</strong> Misiks55</p>
+        </div>
+    </div>
+    
+    <script>
+        // Створюємо QR-код
+        const url = window.location.origin + '/fix-admin.html';
+        
+        QRCode.toCanvas(document.getElementById('qrcode'), url, {
+            width: 200,
+            margin: 2,
+            color: {
+                dark: '#000000',
+                light: '#FFFFFF'
+            }
+        }, function (error) {
+            if (error) console.error(error);
+        });
+    </script>
+</body>
+</html> 
