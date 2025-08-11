@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ініціалізація продуктів</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .btn {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background: #45a049;
+        }
+        .btn-warning {
+            background: #FF9800;
+        }
+        .btn-warning:hover {
+            background: #F57C00;
+        }
+        .info {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #2196F3;
+        }
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .product-list {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .product-item:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛒 Ініціалізація продуктів</h1>
+        
+        <div class="info">
+            <h3>Як це працює:</h3>
+            <p>Ця сторінка додасть початкові продукти в localStorage, щоб вони з'являлися в адмін панелі та на головній сторінці.</p>
+        </div>
+        
+        <div id="status"></div>
+        
+        <button class="btn" onclick="initCategories()">Створити категорії</button>
+        <button class="btn" onclick="initProducts()">Додати початкові продукти</button>
+        <button class="btn btn-warning" onclick="clearAll()">Очистити все</button>
+        <button class="btn" onclick="checkStatus()">Перевірити статус</button>
+        <button class="btn" onclick="window.location.href='admin.html'">Перейти до адмін панелі</button>
+        <button class="btn" onclick="window.location.href='index.html'">Перейти до головної сторінки</button>
+    </div>
+
+    <script>
+        function initCategories() {
+            const categories = [
+                {
+                    id: Date.now(),
+                    name: 'Хліб',
+                    code: 'bread',
+                    description: 'Свіжий хліб щодня',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: Date.now() + 1,
+                    name: 'Випічка',
+                    code: 'pastry',
+                    description: 'Смачна випічка',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: Date.now() + 2,
+                    name: 'Торти',
+                    code: 'cakes',
+                    description: 'Святкові торти',
+                    createdAt: new Date().toISOString()
+                }
+            ];
+            
+            localStorage.setItem('categories', JSON.stringify(categories));
+            
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = `
+                <div class="status success">
+                    <h3>✅ Категорії створено!</h3>
+                    <p>Додано ${categories.length} категорій: ${categories.map(cat => cat.name).join(', ')}</p>
+                </div>
+            `;
+        }
+        
+        function initProducts() {
+            const products = [
+                {
+                    id: Date.now(),
+                    name: 'Білий хліб',
+                    description: 'Класичний білий хліб з хрусткою скоринкою',
+                    price: '15 грн',
+                    category: 'bread',
+                    image: 'bread1.jpg',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: Date.now() + 1,
+                    name: 'Житній хліб',
+                    description: 'Поживний житній хліб з насінням',
+                    price: '18 грн',
+                    category: 'bread',
+                    image: 'bread2.jpg',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: Date.now() + 2,
+                    name: 'Круасан',
+                    description: 'Смачний круасан з маслом',
+                    price: '25 грн',
+                    category: 'pastry',
+                    image: 'croissant.jpg',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: Date.now() + 3,
+                    name: 'Торт "Наполеон"',
+                    description: 'Класичний торт з вершковим кремом',
+                    price: '120 грн',
+                    category: 'cakes',
+                    image: 'cake1.jpg',
+                    createdAt: new Date().toISOString()
+                }
+            ];
+            
+            localStorage.setItem('menuItems', JSON.stringify(products));
+            
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = `
+                <div class="status success">
+                    <h3>✅ Продукти додано!</h3>
+                    <p>Додано ${products.length} продуктів. Тепер вони з'являться в адмін панелі та на головній сторінці.</p>
+                </div>
+            `;
+        }
+        
+        function clearAll() {
+            if (confirm('Ви впевнені, що хочете видалити всі категорії та продукти?')) {
+                localStorage.removeItem('categories');
+                localStorage.removeItem('menuItems');
+                const statusDiv = document.getElementById('status');
+                statusDiv.innerHTML = `
+                    <div class="status error">
+                        <h3>🗑️ Все очищено</h3>
+                        <p>Всі категорії та продукти були видалені з localStorage.</p>
+                    </div>
+                `;
+            }
+        }
+        
+        function checkStatus() {
+            const categories = JSON.parse(localStorage.getItem('categories') || '[]');
+            const products = JSON.parse(localStorage.getItem('menuItems') || '[]');
+            const statusDiv = document.getElementById('status');
+            
+            let statusHTML = `
+                <div class="status ${categories.length > 0 && products.length > 0 ? 'success' : 'error'}">
+                    <h3>📊 Статус системи:</h3>
+                    <p><strong>Категорій:</strong> ${categories.length}</p>
+                    <p><strong>Продуктів:</strong> ${products.length}</p>
+                </div>
+            `;
+            
+            if (products.length > 0) {
+                statusHTML += `
+                    <div class="product-list">
+                        <h4>📦 Поточні продукти:</h4>
+                        ${products.map(product => `
+                            <div class="product-item">
+                                <div>
+                                    <strong>${product.name}</strong> - ${product.price}
+                                    <br><small>${product.description}</small>
+                                </div>
+                                <small>Категорія: ${product.category}</small>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            statusDiv.innerHTML = statusHTML;
+        }
+        
+        // Check status on page load
+        window.addEventListener('load', function() {
+            checkStatus();
+        });
+    </script>
+</body>
+</html> 
