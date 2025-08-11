@@ -13,29 +13,52 @@ document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', 
     navMenu.classList.remove('active');
 }));
 
-// Menu category filtering
-const categoryBtns = document.querySelectorAll('.category-btn');
-const menuItems = document.querySelectorAll('.menu-item');
+// Load categories from localStorage
+function loadCategories() {
+    const categories = JSON.parse(localStorage.getItem('categories') || '[]');
+    const categoriesContainer = document.getElementById('menu-categories');
+    
+    if (categoriesContainer) {
+        // Keep the "All" button
+        let categoriesHTML = '<button class="category-btn active" data-category="all">Всі</button>';
+        
+        // Add dynamic categories
+        categories.forEach(category => {
+            categoriesHTML += `<button class="category-btn" data-category="${category.code}">${category.name}</button>`;
+        });
+        
+        categoriesContainer.innerHTML = categoriesHTML;
+        
+        // Re-attach event listeners
+        attachCategoryListeners();
+    }
+}
 
-categoryBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        // Remove active class from all buttons
-        categoryBtns.forEach(b => b.classList.remove('active'));
-        // Add active class to clicked button
-        btn.classList.add('active');
-        
-        const category = btn.getAttribute('data-category');
-        
-        menuItems.forEach(item => {
-            if (category === 'all' || item.getAttribute('data-category') === category) {
-                item.style.display = 'block';
-                item.style.animation = 'fadeInUp 0.6s ease forwards';
-            } else {
-                item.style.display = 'none';
-            }
+// Menu category filtering
+function attachCategoryListeners() {
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    const menuItems = document.querySelectorAll('.menu-item');
+
+    categoryBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove active class from all buttons
+            categoryBtns.forEach(b => b.classList.remove('active'));
+            // Add active class to clicked button
+            btn.classList.add('active');
+            
+            const category = btn.getAttribute('data-category');
+            
+            menuItems.forEach(item => {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'block';
+                    item.style.animation = 'fadeInUp 0.6s ease forwards';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
         });
     });
-});
+}
 
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -181,6 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
     showUserProfile();
     checkAdminStatus();
     checkCreatorLink();
+    loadCategories(); // Load categories from localStorage
     
     // Update copyright year automatically
     updateCopyrightYear();
