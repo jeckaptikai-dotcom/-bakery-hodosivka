@@ -42,7 +42,42 @@ function loadCategories() {
 // Function to refresh categories (can be called from admin panel)
 function refreshCategories() {
     loadCategories();
-    console.log('Категорії оновлено!');
+    loadMenuItems();
+    console.log('Категорії та продукти оновлено!');
+}
+
+// Load menu items from localStorage
+function loadMenuItems() {
+    const menuItems = JSON.parse(localStorage.getItem('menuItems') || '[]');
+    const container = document.getElementById('menu-grid');
+    
+    if (container) {
+        if (menuItems.length === 0) {
+            container.innerHTML = `
+                <div style="text-align: center; grid-column: 1 / -1; padding: 40px;">
+                    <h3>Поки що немає продуктів</h3>
+                    <p>Продукти будуть додані адміністратором</p>
+                </div>
+            `;
+        } else {
+            container.innerHTML = menuItems.map(item => `
+                <div class="menu-item" data-category="${item.category}">
+                    <img src="${item.image || 'default-food.jpg'}" alt="${item.name}" class="menu-img" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiM5OTk5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7wn5GAPC90ZXh0Pgo8L3N2Zz4K'">
+                    <div class="menu-content">
+                        <h3>${item.name}</h3>
+                        <p>${item.description || 'Немає опису'}</p>
+                        <span class="price">${item.price}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+    }
+}
+
+// Function to refresh menu items (can be called from admin panel)
+function refreshMenuItems() {
+    loadMenuItems();
+    console.log('Продукти оновлено!');
 }
 
 // Menu category filtering
@@ -216,6 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
     checkAdminStatus();
     checkCreatorLink();
     loadCategories(); // Load categories from localStorage
+    loadMenuItems(); // Load menu items from localStorage
     
     // Update copyright year automatically
     updateCopyrightYear();

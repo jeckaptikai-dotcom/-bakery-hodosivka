@@ -91,45 +91,14 @@
             </div>
             <div style="text-align: center; margin: 20px 0;">
                 <button onclick="refreshCategories()" style="background: #4CAF50; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
-                    🔄 Оновити категорії
+                    🔄 Оновити все
                 </button>
-                <button onclick="window.location.href='sync-categories.html'" style="background: #2196F3; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; margin-left: 10px;">
-                    ⚙️ Налаштувати категорії
+                <button onclick="window.location.href='admin.html'" style="background: #FF9800; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; margin-left: 10px;">
+                    ⚙️ Адмін панель
                 </button>
             </div>
-            <div class="menu-grid">
-                <div class="menu-item" data-category="bread">
-                    <img src="bread1.jpg" alt="Білий хліб" class="menu-img">
-                    <div class="menu-content">
-                        <h3>Білий хліб</h3>
-                        <p>Класичний білий хліб з хрусткою скоринкою</p>
-                        <span class="price">15 грн</span>
-                    </div>
-                </div>
-                <div class="menu-item" data-category="bread">
-                    <img src="bread2.jpg" alt="Житній хліб" class="menu-img">
-                    <div class="menu-content">
-                        <h3>Житній хліб</h3>
-                        <p>Поживний житній хліб з насінням</p>
-                        <span class="price">18 грн</span>
-                    </div>
-                </div>
-                <div class="menu-item" data-category="pastry">
-                    <img src="croissant.jpg" alt="Круасан" class="menu-img">
-                    <div class="menu-content">
-                        <h3>Круасан</h3>
-                        <p>Смачний круасан з маслом</p>
-                        <span class="price">25 грн</span>
-                    </div>
-                </div>
-                <div class="menu-item" data-category="cakes">
-                    <img src="cake1.jpg" alt="Торт" class="menu-img">
-                    <div class="menu-content">
-                        <h3>Торт "Наполеон"</h3>
-                        <p>Класичний торт з вершковим кремом</p>
-                        <span class="price">120 грн</span>
-                    </div>
-                </div>
+            <div class="menu-grid" id="menu-grid">
+                <!-- Products will be loaded here -->
             </div>
         </div>
     </section>
