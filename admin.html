@@ -229,6 +229,11 @@
                             <a href="https://www.pexels.com/search/bread/" target="_blank">Pexels</a> або 
                             <a href="https://imgur.com/" target="_blank">Imgur</a>
                         </p>
+                        <div id="file-warning" style="display: none; background: #fff3cd; border: 1px solid #ffeaa7; color: #856404; padding: 10px; border-radius: 5px; margin-top: 10px;">
+                            ⚠️ <strong>Увага!</strong> Завантажені файли зберігаються як Base64 і можуть робити сторінку повільною. 
+                            Рекомендуємо використовувати URL зображень. 
+                            <a href="upload-images.html" target="_blank" style="color: #007bff;">Дізнатися більше</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -732,15 +737,18 @@
         function toggleImageSource() {
             const fileInput = document.getElementById('item-image-file');
             const urlInput = document.getElementById('item-image-url');
+            const fileWarning = document.getElementById('file-warning');
             const fileRadio = document.querySelector('input[name="image-source"][value="file"]');
             const urlRadio = document.querySelector('input[name="image-source"][value="url"]');
             
             if (urlRadio.checked) {
                 fileInput.style.display = 'none';
                 urlInput.style.display = 'block';
+                fileWarning.style.display = 'none';
             } else {
                 fileInput.style.display = 'block';
                 urlInput.style.display = 'none';
+                fileWarning.style.display = 'block';
             }
         }
         
