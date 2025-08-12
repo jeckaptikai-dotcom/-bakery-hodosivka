@@ -217,13 +217,18 @@
                         </div>
                         <div class="image-options">
                             <label>
-                                <input type="radio" name="image-source" value="file" checked onchange="toggleImageSource()"> Завантажити з пристрою
+                                <input type="radio" name="image-source" value="url" checked onchange="toggleImageSource()"> URL зображення (рекомендується)
                             </label>
                             <label>
-                                <input type="radio" name="image-source" value="url" onchange="toggleImageSource()"> URL зображення
+                                <input type="radio" name="image-source" value="file" onchange="toggleImageSource()"> Завантажити з пристрою
                             </label>
                         </div>
-                        <input type="text" id="item-image-url" class="form-input" placeholder="https://example.com/image.jpg" style="display: none;">
+                        <input type="text" id="item-image-url" class="form-input" placeholder="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&h=300&fit=crop">
+                        <p style="font-size: 12px; color: #666; margin-top: 5px;">
+                            💡 Використовуйте посилання з <a href="https://unsplash.com/s/photos/bread" target="_blank">Unsplash</a>, 
+                            <a href="https://www.pexels.com/search/bread/" target="_blank">Pexels</a> або 
+                            <a href="https://imgur.com/" target="_blank">Imgur</a>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -533,12 +538,34 @@
             }
             
             // Determine image source
-            let image = 'default-food.jpg';
-            if (imageUrl) {
-                image = imageUrl;
+            let image = 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&h=300&fit=crop'; // Default bread image
+            if (imageUrl && imageUrl.trim()) {
+                image = imageUrl.trim();
             } else if (imageFile) {
-                // For now, just use the filename
-                image = imageFile.name;
+                // Convert file to base64 (not recommended for large files)
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64Image = e.target.result;
+                    const menuItem = {
+                        id: Date.now(),
+                        name: name,
+                        description: description,
+                        price: price + ' грн',
+                        category: category,
+                        image: base64Image,
+                        createdAt: new Date().toISOString()
+                    };
+                    
+                    const menuItems = JSON.parse(localStorage.getItem('menuItems') || '[]');
+                    menuItems.push(menuItem);
+                    localStorage.setItem('menuItems', JSON.stringify(menuItems));
+                    
+                    closeModal();
+                    loadMenuItems();
+                    alert('Продукт додано! Зображення збережено як Base64 (може бути повільним).');
+                };
+                reader.readAsDataURL(imageFile);
+                return; // Exit early as we're handling the file asynchronously
             }
             
             const menuItem = {
@@ -708,12 +735,12 @@
             const fileRadio = document.querySelector('input[name="image-source"][value="file"]');
             const urlRadio = document.querySelector('input[name="image-source"][value="url"]');
             
-            if (fileRadio.checked) {
-                fileInput.style.display = 'block';
-                urlInput.style.display = 'none';
-            } else {
+            if (urlRadio.checked) {
                 fileInput.style.display = 'none';
                 urlInput.style.display = 'block';
+            } else {
+                fileInput.style.display = 'block';
+                urlInput.style.display = 'none';
             }
         }
         
