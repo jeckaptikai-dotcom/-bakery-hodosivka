@@ -43,6 +43,12 @@ function loadCategories() {
 function refreshCategories() {
     loadCategories();
     loadMenuItems();
+    
+    // Re-attach category listeners after refresh
+    setTimeout(() => {
+        attachCategoryListeners();
+    }, 200);
+    
     console.log('Категорії та продукти оновлено!');
 }
 
@@ -97,6 +103,11 @@ function loadMenuItems() {
                 </div>
             `).join('');
         }
+        
+        // Re-attach category listeners after loading products
+        setTimeout(() => {
+            attachCategoryListeners();
+        }, 100);
     } else {
         console.error('Container menu-grid not found!'); // Debug log
     }
@@ -110,28 +121,48 @@ function refreshMenuItems() {
 
 // Menu category filtering
 function attachCategoryListeners() {
+    console.log('Attaching category listeners...');
+    
+    // Remove existing listeners first
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    categoryBtns.forEach(btn => {
+        btn.removeEventListener('click', handleCategoryClick);
+        btn.addEventListener('click', handleCategoryClick);
+    });
+    
+    console.log(`Attached listeners to ${categoryBtns.length} category buttons`);
+}
+
+// Handle category button click
+function handleCategoryClick() {
+    console.log('Category button clicked:', this.getAttribute('data-category'));
+    
     const categoryBtns = document.querySelectorAll('.category-btn');
     const menuItems = document.querySelectorAll('.menu-item');
-
-    categoryBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Remove active class from all buttons
-            categoryBtns.forEach(b => b.classList.remove('active'));
-            // Add active class to clicked button
-            btn.classList.add('active');
-            
-            const category = btn.getAttribute('data-category');
-            
-            menuItems.forEach(item => {
-                if (category === 'all' || item.getAttribute('data-category') === category) {
-                    item.style.display = 'block';
-                    item.style.animation = 'fadeInUp 0.6s ease forwards';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        });
+    
+    // Remove active class from all buttons
+    categoryBtns.forEach(b => b.classList.remove('active'));
+    // Add active class to clicked button
+    this.classList.add('active');
+    
+    const category = this.getAttribute('data-category');
+    console.log('Filtering by category:', category);
+    
+    let visibleCount = 0;
+    menuItems.forEach(item => {
+        const itemCategory = item.getAttribute('data-category');
+        console.log(`Item ${item.querySelector('h3')?.textContent}: category=${itemCategory}`);
+        
+        if (category === 'all' || itemCategory === category) {
+            item.style.display = 'block';
+            item.style.animation = 'fadeInUp 0.6s ease forwards';
+            visibleCount++;
+        } else {
+            item.style.display = 'none';
+        }
     });
+    
+    console.log(`Showed ${visibleCount} items for category: ${category}`);
 }
 
 // Smooth scrolling for navigation links
