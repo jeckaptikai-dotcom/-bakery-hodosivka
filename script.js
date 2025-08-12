@@ -125,9 +125,19 @@ function attachCategoryListeners() {
     
     // Remove existing listeners first
     const categoryBtns = document.querySelectorAll('.category-btn');
-    categoryBtns.forEach(btn => {
+    console.log(`Found ${categoryBtns.length} category buttons`);
+    
+    categoryBtns.forEach((btn, index) => {
+        console.log(`Button ${index + 1}: ${btn.getAttribute('data-category')}`);
+        
+        // Remove any existing listeners
         btn.removeEventListener('click', handleCategoryClick);
+        
+        // Add new listener
         btn.addEventListener('click', handleCategoryClick);
+        
+        // Test if listener was added
+        console.log(`Added listener to button: ${btn.getAttribute('data-category')}`);
     });
     
     console.log(`Attached listeners to ${categoryBtns.length} category buttons`);
@@ -135,10 +145,12 @@ function attachCategoryListeners() {
 
 // Handle category button click
 function handleCategoryClick() {
-    console.log('Category button clicked:', this.getAttribute('data-category'));
+    console.log('🎯 Category button clicked:', this.getAttribute('data-category'));
     
     const categoryBtns = document.querySelectorAll('.category-btn');
     const menuItems = document.querySelectorAll('.menu-item');
+    
+    console.log(`Found ${categoryBtns.length} buttons and ${menuItems.length} menu items`);
     
     // Remove active class from all buttons
     categoryBtns.forEach(b => b.classList.remove('active'));
@@ -146,23 +158,30 @@ function handleCategoryClick() {
     this.classList.add('active');
     
     const category = this.getAttribute('data-category');
-    console.log('Filtering by category:', category);
+    console.log('🔍 Filtering by category:', category);
     
     let visibleCount = 0;
-    menuItems.forEach(item => {
+    let hiddenCount = 0;
+    
+    menuItems.forEach((item, index) => {
         const itemCategory = item.getAttribute('data-category');
-        console.log(`Item ${item.querySelector('h3')?.textContent}: category=${itemCategory}`);
+        const itemName = item.querySelector('h3')?.textContent || `Item ${index}`;
+        
+        console.log(`📦 Item ${index + 1}: "${itemName}" (category=${itemCategory})`);
         
         if (category === 'all' || itemCategory === category) {
             item.style.display = 'block';
             item.style.animation = 'fadeInUp 0.6s ease forwards';
             visibleCount++;
+            console.log(`  ✅ Showing item: "${itemName}"`);
         } else {
             item.style.display = 'none';
+            hiddenCount++;
+            console.log(`  ❌ Hiding item: "${itemName}"`);
         }
     });
     
-    console.log(`Showed ${visibleCount} items for category: ${category}`);
+    console.log(`📊 Filter result: ${visibleCount} visible, ${hiddenCount} hidden for category: ${category}`);
 }
 
 // Smooth scrolling for navigation links
