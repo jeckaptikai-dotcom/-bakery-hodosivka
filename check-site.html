@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Перевірка статусу сайту</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .btn {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn:hover {
+            background: #45a049;
+        }
+        .btn-warning {
+            background: #FF9800;
+        }
+        .btn-warning:hover {
+            background: #F57C00;
+        }
+        .info {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #2196F3;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #FF9800;
+        }
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #dc3545;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #28a745;
+        }
+        .step {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #6c757d;
+        }
+        .step-number {
+            background: #007bff;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        code {
+            background: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            border: 1px solid #e9ecef;
+        }
+        .url-box {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border: 2px dashed #6c757d;
+            text-align: center;
+        }
+        .url-box a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .url-box a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌐 Перевірка статусу сайту</h1>
+        
+        <div class="info">
+            <h3>Проблема:</h3>
+            <p>Сайт не відкривається або показує помилку 404. Давайте знайдемо та виправимо проблему.</p>
+        </div>
+        
+        <div class="url-box">
+            <h3>🔗 Ваш сайт повинен бути доступний за адресою:</h3>
+            <a href="https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/" target="_blank">
+                https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/
+            </a>
+        </div>
+        
+        <div class="warning">
+            <h3>⚠️ Якщо сайт не працює, виконайте ці кроки:</h3>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>Перевірте налаштування GitHub Pages:</strong>
+            <ul>
+                <li>Перейдіть на <a href="https://github.com/jeckaptikai-dotcom/-bakery-hodosivka/settings/pages" target="_blank">GitHub Settings → Pages</a></li>
+                <li>Переконайтеся, що <strong>Source</strong> встановлено на <code>Deploy from a branch</code></li>
+                <li>Переконайтеся, що <strong>Branch</strong> встановлено на <code>main</code></li>
+                <li>Переконайтеся, що <strong>Folder</strong> встановлено на <code>/ (root)</code></li>
+            </ul>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">2</span>
+            <strong>Перевірте, чи всі файли завантажені:</strong>
+            <ul>
+                <li>Перейдіть на <a href="https://github.com/jeckaptikai-dotcom/-bakery-hodosivka" target="_blank">репозиторій</a></li>
+                <li>Переконайтеся, що файл <code>index.html</code> є в корені репозиторію</li>
+                <li>Перевірте, чи є файли <code>script.js</code>, <code>styles.css</code></li>
+            </ul>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Оновіть токен доступу:</strong>
+            <ul>
+                <li>Перейдіть на <a href="https://github.com/settings/tokens" target="_blank">GitHub Settings → Developer settings → Personal access tokens</a></li>
+                <li>Створіть новий токен з правами <code>repo</code></li>
+                <li>Оновіть команду в терміналі:</li>
+            </ul>
+            <code>git remote set-url origin https://НОВИЙ_ТОКЕН@github.com/jeckaptikai-dotcom/-bakery-hodosivka.git</code>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>Перезапустіть GitHub Pages:</strong>
+            <ul>
+                <li>В налаштуваннях Pages змініть Source на <code>None</code> і збережіть</li>
+                <li>Потім знову встановіть <code>Deploy from a branch</code> → <code>main</code> → <code>/ (root)</code></li>
+                <li>Зачекайте 5-10 хвилин для оновлення</li>
+            </ul>
+        </div>
+        
+        <div class="success">
+            <h3>✅ Альтернативні посилання для тестування:</h3>
+            <p>Спробуйте ці посилання, якщо основне не працює:</p>
+            <ul>
+                <li><a href="https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/index.html" target="_blank">Пряме посилання на index.html</a></li>
+                <li><a href="https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/debug-categories.html" target="_blank">Сторінка діагностики</a></li>
+                <li><a href="https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/test-categories.html" target="_blank">Тест категорій</a></li>
+            </ul>
+        </div>
+        
+        <div class="error">
+            <h3>❌ Якщо нічого не працює:</h3>
+            <p>Можливо, проблема з назвою репозиторію або налаштуваннями. Спробуйте:</p>
+            <ul>
+                <li>Перейменувати репозиторій на <code>bakery-hodosivka</code> (без дефісу на початку)</li>
+                <li>Або створити новий репозиторій з правильною назвою</li>
+            </ul>
+        </div>
+        
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="https://github.com/jeckaptikai-dotcom/-bakery-hodosivka" class="btn" target="_blank">📁 Відкрити репозиторій</a>
+            <a href="https://github.com/jeckaptikai-dotcom/-bakery-hodosivka/settings/pages" class="btn btn-warning" target="_blank">⚙️ Налаштування Pages</a>
+            <a href="https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/" class="btn" target="_blank">🌐 Відкрити сайт</a>
+        </div>
+        
+        <div class="info">
+            <h3>📞 Додаткова допомога:</h3>
+            <p>Якщо проблема залишається, зверніться до розробника: <a href="https://t.me/mm.slmn" target="_blank">@mm.slmn</a></p>
+        </div>
+    </div>
+
+    <script>
+        // Check if current page loads
+        window.addEventListener('load', function() {
+            console.log('✅ Check site page loaded successfully');
+            
+            // Test if we can access the main site
+            fetch('https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/')
+                .then(response => {
+                    if (response.ok) {
+                        console.log('✅ Main site is accessible');
+                    } else {
+                        console.log('❌ Main site returned status:', response.status);
+                    }
+                })
+                .catch(error => {
+                    console.log('❌ Error accessing main site:', error.message);
+                });
+        });
+    </script>
+</body>
+</html> 
