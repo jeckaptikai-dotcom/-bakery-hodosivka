@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Синхронізація даних - Пекарня в Ходосівці</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+        }
+
+        .section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        }
+
+        .data-display {
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .data-display h4 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .data-textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+        }
+
+        .data-textarea:focus {
+            outline: none;
+            border-color: #28a745;
+            box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+        }
+
+        .qr-section {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .qr-code {
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: #e7f3ff;
+            border-color: #2196F3;
+            color: #0c5460;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            border-color: #FF9800;
+            color: #856404;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #dee2e6;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #28a745;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .instructions {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .instructions li {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-sync-alt"></i> Синхронізація даних</h1>
+            <p>Перенесення продуктів між пристроями</p>
+        </div>
+
+        <div class="content">
+            <div class="alert alert-info">
+                <h3><i class="fas fa-info-circle"></i> Як це працює?</h3>
+                <p>Ця сторінка дозволяє експортувати дані з одного пристрою та імпортувати їх на інший. Дані передаються через QR код або текстовий код.</p>
+            </div>
+
+            <!-- Статистика -->
+            <div class="section">
+                <h3><i class="fas fa-chart-bar"></i> Поточні дані</h3>
+                <div class="stats" id="stats">
+                    <!-- Статистика буде завантажена тут -->
+                </div>
+            </div>
+
+            <!-- Експорт даних -->
+            <div class="section">
+                <h3><i class="fas fa-download"></i> Експорт даних</h3>
+                <p>Експортуйте всі продукти та категорії з цього пристрою:</p>
+                
+                <button class="btn" onclick="exportData()">
+                    <i class="fas fa-download"></i> Експортувати дані
+                </button>
+                
+                <button class="btn btn-secondary" onclick="generateQR()">
+                    <i class="fas fa-qrcode"></i> Створити QR код
+                </button>
+
+                <div class="data-display" id="export-section" style="display: none;">
+                    <h4>Експортовані дані:</h4>
+                    <textarea class="data-textarea" id="export-data" readonly></textarea>
+                    
+                    <div class="qr-section" id="qr-section" style="display: none;">
+                        <h4>QR код для передачі даних:</h4>
+                        <div class="qr-code" id="qr-code"></div>
+                        <p style="color: #666; font-size: 0.9rem;">
+                            Відскануйте цей QR код на іншому пристрої для імпорту даних
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Імпорт даних -->
+            <div class="section">
+                <h3><i class="fas fa-upload"></i> Імпорт даних</h3>
+                <p>Імпортуйте дані з іншого пристрою:</p>
+                
+                <button class="btn btn-warning" onclick="importFromQR()">
+                    <i class="fas fa-qrcode"></i> Сканувати QR код
+                </button>
+                
+                <button class="btn btn-secondary" onclick="showImportSection()">
+                    <i class="fas fa-paste"></i> Вставити код
+                </button>
+
+                <div class="data-display" id="import-section" style="display: none;">
+                    <h4>Вставте дані для імпорту:</h4>
+                    <textarea class="data-textarea" id="import-data" placeholder="Вставте сюди експортовані дані..."></textarea>
+                    
+                    <button class="btn btn-warning" onclick="importData()">
+                        <i class="fas fa-upload"></i> Імпортувати дані
+                    </button>
+                    
+                    <button class="btn btn-danger" onclick="clearImport()">
+                        <i class="fas fa-trash"></i> Очистити
+                    </button>
+                </div>
+            </div>
+
+            <!-- Інструкції -->
+            <div class="section">
+                <h3><i class="fas fa-question-circle"></i> Інструкції</h3>
+                <div class="instructions">
+                    <h4>Як синхронізувати дані між пристроями:</h4>
+                    <ol>
+                        <li><strong>На ноуті (де є дані):</strong>
+                            <ul>
+                                <li>Відкрийте цю сторінку</li>
+                                <li>Натисніть "Експортувати дані"</li>
+                                <li>Натисніть "Створити QR код"</li>
+                            </ul>
+                        </li>
+                        <li><strong>На телефоні:</strong>
+                            <ul>
+                                <li>Відкрийте цю сторінку</li>
+                                <li>Натисніть "Сканувати QR код"</li>
+                                <li>Відскануйте QR код з ноута</li>
+                                <li>Натисніть "Імпортувати дані"</li>
+                            </ul>
+                        </li>
+                        <li><strong>Альтернативний спосіб:</strong>
+                            <ul>
+                                <li>Скопіюйте текст з поля "Експортовані дані"</li>
+                                <li>Відправте собі в месенджер</li>
+                                <li>На іншому пристрої вставте в поле "Вставити код"</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Попередження -->
+            <div class="alert alert-warning">
+                <h3><i class="fas fa-exclamation-triangle"></i> Увага!</h3>
+                <p><strong>Імпорт даних перезапише всі поточні продукти та категорії!</strong> Зробіть резервну копію, якщо потрібно зберегти поточні дані.</p>
+            </div>
+
+            <!-- Навігація -->
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="index.html" class="btn">
+                    <i class="fas fa-home"></i> Головна сторінка
+                </a>
+                <a href="admin.html" class="btn btn-secondary">
+                    <i class="fas fa-cog"></i> Адмін панель
+                </a>
+                <a href="check-links.html" class="btn btn-secondary">
+                    <i class="fas fa-link"></i> Перевірка посилань
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Завантаження статистики
+        function loadStats() {
+            const categories = JSON.parse(localStorage.getItem('categories') || '[]');
+            const menuItems = JSON.parse(localStorage.getItem('menuItems') || '[]');
+            
+            const statsContainer = document.getElementById('stats');
+            statsContainer.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-number">${categories.length}</div>
+                    <div class="stat-label">Категорії</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${menuItems.length}</div>
+                    <div class="stat-label">Продукти</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${new Date().toLocaleDateString('uk-UA')}</div>
+                    <div class="stat-label">Останнє оновлення</div>
+                </div>
+            `;
+        }
+
+        // Експорт даних
+        function exportData() {
+            const categories = JSON.parse(localStorage.getItem('categories') || '[]');
+            const menuItems = JSON.parse(localStorage.getItem('menuItems') || '[]');
+            
+            const exportData = {
+                categories: categories,
+                menuItems: menuItems,
+                exportDate: new Date().toISOString(),
+                version: '1.0'
+            };
+            
+            const exportText = btoa(JSON.stringify(exportData)); // Кодуємо в base64
+            
+            document.getElementById('export-data').value = exportText;
+            document.getElementById('export-section').style.display = 'block';
+            
+            showAlert('success', 'Дані успішно експортовано!');
+        }
+
+        // Генерація QR коду
+        function generateQR() {
+            const exportText = document.getElementById('export-data').value;
+            if (!exportText) {
+                showAlert('warning', 'Спочатку експортуйте дані!');
+                return;
+            }
+            
+            const qrUrl = `https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/sync-data.html?import=${encodeURIComponent(exportText)}`;
+            const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(qrUrl)}`;
+            
+            document.getElementById('qr-code').innerHTML = `<img src="${qrCodeUrl}" alt="QR код" style="max-width: 100%;">`;
+            document.getElementById('qr-section').style.display = 'block';
+        }
+
+        // Показати секцію імпорту
+        function showImportSection() {
+            document.getElementById('import-section').style.display = 'block';
+        }
+
+        // Імпорт даних
+        function importData() {
+            const importText = document.getElementById('import-data').value.trim();
+            if (!importText) {
+                showAlert('warning', 'Вставте дані для імпорту!');
+                return;
+            }
+            
+            try {
+                const decodedData = JSON.parse(atob(importText)); // Декодуємо з base64
+                
+                if (decodedData.categories && decodedData.menuItems) {
+                    localStorage.setItem('categories', JSON.stringify(decodedData.categories));
+                    localStorage.setItem('menuItems', JSON.stringify(decodedData.menuItems));
+                    
+                    showAlert('success', `Дані успішно імпортовано! Завантажено ${decodedData.categories.length} категорій та ${decodedData.menuItems.length} продуктів.`);
+                    
+                    // Оновлюємо статистику
+                    loadStats();
+                    
+                    // Очищаємо поле імпорту
+                    clearImport();
+                } else {
+                    showAlert('danger', 'Неправильний формат даних!');
+                }
+            } catch (error) {
+                showAlert('danger', 'Помилка при імпорті даних: ' + error.message);
+            }
+        }
+
+        // Очистити імпорт
+        function clearImport() {
+            document.getElementById('import-data').value = '';
+            document.getElementById('import-section').style.display = 'none';
+        }
+
+        // Імпорт з QR коду (симуляція)
+        function importFromQR() {
+            showAlert('info', 'Функція сканування QR коду буде додана пізніше. Використовуйте "Вставити код" для ручного імпорту.');
+        }
+
+        // Перевірка URL параметрів для автоматичного імпорту
+        function checkUrlParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const importData = urlParams.get('import');
+            
+            if (importData) {
+                document.getElementById('import-data').value = importData;
+                document.getElementById('import-section').style.display = 'block';
+                showAlert('info', 'Дані для імпорту знайдено в URL. Перевірте та натисніть "Імпортувати дані".');
+            }
+        }
+
+        // Показати повідомлення
+        function showAlert(type, message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.innerHTML = `
+                <h3><i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : type === 'danger' ? 'times-circle' : 'info-circle'}"></i> Повідомлення</h3>
+                <p>${message}</p>
+            `;
+            
+            const content = document.querySelector('.content');
+            content.insertBefore(alertDiv, content.firstChild);
+            
+            // Автоматично видалити через 5 секунд
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+
+        // Ініціалізація сторінки
+        window.addEventListener('load', function() {
+            console.log('🔄 Sync data page loaded');
+            loadStats();
+            checkUrlParams();
+        });
+    </script>
+</body>
+</html>
+

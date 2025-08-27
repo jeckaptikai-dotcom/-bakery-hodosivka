@@ -23,6 +23,18 @@
                     <button class="btn btn-secondary" onclick="previewSite()">
                         <i class="fas fa-eye"></i> Переглянути сайт
                     </button>
+                    <a href="quick-upload.html" class="btn btn-success" target="_blank">
+                        <i class="fas fa-bolt"></i> Швидко завантажити
+                    </a>
+                    <a href="upload-photos.html" class="btn btn-warning" target="_blank">
+                        <i class="fas fa-camera"></i> Завантажити фото
+                    </a>
+                    <a href="sync-data.html" class="btn btn-secondary" target="_blank">
+                        <i class="fas fa-sync-alt"></i> Синхронізація
+                    </a>
+                    <a href="auto-sync.html" class="btn btn-secondary" target="_blank">
+                        <i class="fas fa-sync-alt"></i> Автосинхронізація
+                    </a>
                     <button class="btn btn-primary" onclick="saveChanges()">
                         <i class="fas fa-save"></i> Зберегти
                     </button>
@@ -505,6 +517,14 @@
             document.getElementById('item-price').value = '';
             document.getElementById('item-category').value = '';
             document.getElementById('item-image').value = '';
+            
+            // Check if there's a recently uploaded image URL
+            const lastUploadedUrl = localStorage.getItem('lastUploadedImageUrl');
+            if (lastUploadedUrl) {
+                document.getElementById('item-image-url').value = lastUploadedUrl;
+                // Clear the stored URL after using it
+                localStorage.removeItem('lastUploadedImageUrl');
+            }
             
             // Change modal title and button
             document.querySelector('#menu-modal .modal-header h3').textContent = 'Додати продукт';

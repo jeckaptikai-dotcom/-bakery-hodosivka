@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Виправлення зламаних зображень - Пекарня в Ходосівці</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            border-color: #ffc107;
+            color: #856404;
+        }
+
+        .alert-info {
+            background: #e7f3ff;
+            border-color: #2196F3;
+            color: #0c5460;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 2px solid #dee2e6;
+            transition: all 0.3s ease;
+        }
+
+        .product-card.broken {
+            border-color: #dc3545;
+            background: #fff5f5;
+        }
+
+        .product-card.fixed {
+            border-color: #28a745;
+            background: #f8fff9;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #dc3545;
+        }
+
+        .product-image.broken {
+            background: #fff3cd;
+            color: #ffc107;
+        }
+
+        .product-image.fixed {
+            background: #d4edda;
+            color: #28a745;
+        }
+
+        .product-info h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-weight: 600;
+            color: #28a745;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .product-url {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            margin: 10px 0;
+            word-break: break-all;
+        }
+
+        .product-url.broken {
+            border-color: #dc3545;
+            background: #fff5f5;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+        }
+
+        .fix-options {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .fix-option {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .fix-option input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+
+        .fix-option input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .navigation {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid #dee2e6;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .stat-number.broken {
+            color: #dc3545;
+        }
+
+        .stat-number.fixed {
+            color: #28a745;
+        }
+
+        .stat-number.total {
+            color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-tools"></i> Виправлення зламаних зображень</h1>
+            <p>Знайдіть та виправте зображення, які не відображаються правильно</p>
+        </div>
+
+        <div class="content">
+            <div class="alert alert-warning">
+                <h3><i class="fas fa-exclamation-triangle"></i> Проблема з зображеннями</h3>
+                <p>Якщо ви бачите жовтий круг з білим знаком оклику замість зображення, це означає, що URL зображення неправильний або недоступний.</p>
+            </div>
+
+            <div class="stats" id="stats">
+                <div class="stat-card">
+                    <div class="stat-number total" id="total-count">0</div>
+                    <div>Всього продуктів</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number broken" id="broken-count">0</div>
+                    <div>Зламаних зображень</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number fixed" id="fixed-count">0</div>
+                    <div>Виправлених зображень</div>
+                </div>
+            </div>
+
+            <div class="fix-options">
+                <h3><i class="fas fa-magic"></i> Швидке виправлення</h3>
+                <p>Використайте готові зображення для швидкого виправлення:</p>
+                
+                <div class="fix-option">
+                    <label>Хліб:</label>
+                    <input type="text" value="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&h=300&fit=crop" readonly>
+                    <button class="btn btn-success" onclick="useDefaultImage('bread')">Використати</button>
+                </div>
+                
+                <div class="fix-option">
+                    <label>Булочки:</label>
+                    <input type="text" value="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&h=300&fit=crop" readonly>
+                    <button class="btn btn-success" onclick="useDefaultImage('pastry')">Використати</button>
+                </div>
+                
+                <div class="fix-option">
+                    <label>Торти:</label>
+                    <input type="text" value="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=300&fit=crop" readonly>
+                    <button class="btn btn-success" onclick="useDefaultImage('cakes')">Використати</button>
+                </div>
+                
+                <div class="fix-option">
+                    <label>Печиво:</label>
+                    <input type="text" value="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400&h=300&fit=crop" readonly>
+                    <button class="btn btn-success" onclick="useDefaultImage('cookies')">Використати</button>
+                </div>
+            </div>
+
+            <div class="products-grid" id="products-grid">
+                <!-- Products will be loaded here -->
+            </div>
+
+            <div class="navigation">
+                <a href="quick-upload.html" class="btn btn-success">
+                    <i class="fas fa-bolt"></i> Швидко завантажити
+                </a>
+                <a href="upload-photos.html" class="btn">
+                    <i class="fas fa-camera"></i> Повне завантаження
+                </a>
+                <a href="admin.html" class="btn btn-warning">
+                    <i class="fas fa-cog"></i> Адмін панель
+                </a>
+                <a href="index.html" class="btn btn-secondary">
+                    <i class="fas fa-home"></i> Головна
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let menuItems = [];
+        let defaultImages = {
+            'bread': 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&h=300&fit=crop',
+            'pastry': 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&h=300&fit=crop',
+            'cakes': 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=300&fit=crop',
+            'cookies': 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400&h=300&fit=crop'
+        };
+
+        function loadProducts() {
+            menuItems = JSON.parse(localStorage.getItem('menuItems') || '[]');
+            displayProducts();
+            updateStats();
+        }
+
+        function displayProducts() {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '';
+
+            if (menuItems.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                        <i class="fas fa-info-circle" style="font-size: 3rem; color: #667eea; margin-bottom: 20px;"></i>
+                        <h3>Продуктів не знайдено</h3>
+                        <p>Додайте продукти в адмін панелі, щоб перевірити зображення</p>
+                        <a href="admin.html" class="btn">Перейти до адмін панелі</a>
+                    </div>
+                `;
+                return;
+            }
+
+            menuItems.forEach((item, index) => {
+                const isBroken = isImageBroken(item.image);
+                const card = document.createElement('div');
+                card.className = `product-card ${isBroken ? 'broken' : 'fixed'}`;
+                
+                card.innerHTML = `
+                    <div class="product-image ${isBroken ? 'broken' : 'fixed'}">
+                        ${isBroken ? '<i class="fas fa-exclamation-triangle"></i>' : '<i class="fas fa-check-circle"></i>'}
+                    </div>
+                    <div class="product-info">
+                        <h3>${item.name}</h3>
+                        <div class="product-price">${item.price}</div>
+                        <div class="product-url ${isBroken ? 'broken' : ''}">${item.image}</div>
+                        <div style="margin-top: 15px;">
+                            ${isBroken ? `
+                                <button class="btn btn-warning" onclick="fixImage(${index})">
+                                    <i class="fas fa-wrench"></i> Виправити
+                                </button>
+                                <button class="btn btn-danger" onclick="removeProduct(${index})">
+                                    <i class="fas fa-trash"></i> Видалити
+                                </button>
+                            ` : `
+                                <button class="btn btn-success" onclick="editProduct(${index})">
+                                    <i class="fas fa-edit"></i> Редагувати
+                                </button>
+                            `}
+                        </div>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        function isImageBroken(imageUrl) {
+            if (!imageUrl || imageUrl === '') return true;
+            
+            // Check if URL is valid
+            try {
+                const url = new URL(imageUrl);
+                if (!url.hostname) return true;
+            } catch {
+                return true;
+            }
+            
+            // Check if it's a placeholder or broken URL
+            const brokenPatterns = [
+                'example.com',
+                'placeholder',
+                'broken',
+                'error',
+                '404'
+            ];
+            
+            return brokenPatterns.some(pattern => 
+                imageUrl.toLowerCase().includes(pattern)
+            );
+        }
+
+        function updateStats() {
+            const total = menuItems.length;
+            const broken = menuItems.filter(item => isImageBroken(item.image)).length;
+            const fixed = total - broken;
+
+            document.getElementById('total-count').textContent = total;
+            document.getElementById('broken-count').textContent = broken;
+            document.getElementById('fixed-count').textContent = fixed;
+        }
+
+        function fixImage(index) {
+            const item = menuItems[index];
+            const newUrl = prompt('Введіть новий URL зображення:', item.image);
+            
+            if (newUrl && newUrl.trim()) {
+                menuItems[index].image = newUrl.trim();
+                localStorage.setItem('menuItems', JSON.stringify(menuItems));
+                displayProducts();
+                updateStats();
+                alert('Зображення оновлено!');
+            }
+        }
+
+        function useDefaultImage(type) {
+            const imageUrl = defaultImages[type];
+            if (imageUrl) {
+                navigator.clipboard.writeText(imageUrl).then(() => {
+                    alert('URL скопійовано в буфер обміну! Тепер можете використати його для виправлення зображення.');
+                }).catch(() => {
+                    alert('URL: ' + imageUrl);
+                });
+            }
+        }
+
+        function removeProduct(index) {
+            if (confirm('Ви впевнені, що хочете видалити цей продукт?')) {
+                menuItems.splice(index, 1);
+                localStorage.setItem('menuItems', JSON.stringify(menuItems));
+                displayProducts();
+                updateStats();
+                alert('Продукт видалено!');
+            }
+        }
+
+        function editProduct(index) {
+            // Redirect to admin panel for editing
+            localStorage.setItem('editProductIndex', index);
+            window.open('admin.html', '_blank');
+        }
+
+        // Initialize page
+        window.addEventListener('load', function() {
+            console.log('🔧 Fix broken images page loaded');
+            loadProducts();
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Діагностика посилань - Пекарня в Ходосівці</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+        }
+
+        .test-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .test-result {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            font-weight: 500;
+        }
+
+        .test-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .test-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .test-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .test-info {
+            background: #e7f3ff;
+            color: #0c5460;
+            border: 1px solid #b8daff;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        }
+
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .link-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #dee2e6;
+            transition: all 0.3s ease;
+        }
+
+        .link-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .link-card h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .link-card a {
+            color: #007bff;
+            text-decoration: none;
+            word-break: break-all;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .link-card a:hover {
+            text-decoration: underline;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-working {
+            background: #28a745;
+        }
+
+        .status-broken {
+            background: #dc3545;
+        }
+
+        .status-testing {
+            background: #ffc107;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: #e7f3ff;
+            border-color: #2196F3;
+            color: #0c5460;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            border-color: #FF9800;
+            color: #856404;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            .link-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-search"></i> Діагностика посилань</h1>
+            <p>Перевірка та виправлення проблем з посиланнями</p>
+        </div>
+
+        <div class="content">
+            <div class="alert alert-info">
+                <h3><i class="fas fa-info-circle"></i> Діагностика</h3>
+                <p>Ця сторінка автоматично перевірить всі посилання та знайде проблеми. Натисніть "Запустити діагностику" для початку.</p>
+            </div>
+
+            <!-- Кнопки діагностики -->
+            <div class="test-section">
+                <h3><i class="fas fa-play"></i> Діагностика</h3>
+                <button class="btn" onclick="runDiagnostics()">
+                    <i class="fas fa-search"></i> Запустити діагностику
+                </button>
+                <button class="btn btn-secondary" onclick="testAllLinks()">
+                    <i class="fas fa-link"></i> Тестувати всі посилання
+                </button>
+                <button class="btn btn-warning" onclick="checkGitHubStatus()">
+                    <i class="fab fa-github"></i> Перевірити GitHub
+                </button>
+            </div>
+
+            <!-- Результати діагностики -->
+            <div class="test-section">
+                <h3><i class="fas fa-clipboard-list"></i> Результати діагностики</h3>
+                <div id="diagnostic-results">
+                    <div class="test-info">
+                        <i class="fas fa-info-circle"></i> Натисніть "Запустити діагностику" для початку перевірки
+                    </div>
+                </div>
+            </div>
+
+            <!-- Основні посилання -->
+            <div class="test-section">
+                <h3><i class="fas fa-home"></i> Основні посилання</h3>
+                <div class="link-grid">
+                    <div class="link-card">
+                        <h4>Головна сторінка</h4>
+                        <a href="https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/" target="_blank">
+                            https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/
+                        </a>
+                        <span class="status-indicator status-testing"></span>
+                        <span id="main-status">Тестується...</span>
+                    </div>
+                    
+                    <div class="link-card">
+                        <h4>Простий доступ</h4>
+                        <a href="https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/simple-url.html" target="_blank">
+                            https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/simple-url.html
+                        </a>
+                        <span class="status-indicator status-testing"></span>
+                        <span id="simple-status">Тестується...</span>
+                    </div>
+                    
+                    <div class="link-card">
+                        <h4>Синхронізація</h4>
+                        <a href="https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/sync-data.html" target="_blank">
+                            https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/sync-data.html
+                        </a>
+                        <span class="status-indicator status-testing"></span>
+                        <span id="sync-status">Тестується...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Альтернативні посилання -->
+            <div class="test-section">
+                <h3><i class="fas fa-external-link-alt"></i> Альтернативні посилання</h3>
+                <div class="link-grid">
+                    <div class="link-card">
+                        <h4>GitHub репозиторій</h4>
+                        <a href="https://github.com/jeckaptikai-dotcom/-bakery-hodosivka" target="_blank">
+                            https://github.com/jeckaptikai-dotcom/-bakery-hodosivka
+                        </a>
+                        <span class="status-indicator status-testing"></span>
+                        <span id="repo-status">Тестується...</span>
+                    </div>
+                    
+                    <div class="link-card">
+                        <h4>GitHub Pages налаштування</h4>
+                        <a href="https://github.com/jeckaptikai-dotcom/-bakery-hodosivka/settings/pages" target="_blank">
+                            https://github.com/jeckaptikai-dotcom/-bakery-hodosivka/settings/pages
+                        </a>
+                        <span class="status-indicator status-testing"></span>
+                        <span id="pages-status">Тестується...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Рішення проблем -->
+            <div class="test-section">
+                <h3><i class="fas fa-tools"></i> Рішення проблем</h3>
+                <div class="alert alert-warning">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Якщо посилання не працюють:</h3>
+                    <ol style="margin-left: 20px; margin-top: 10px;">
+                        <li><strong>Перевірте репозиторій:</strong> Чи існує репозиторій на GitHub?</li>
+                        <li><strong>Налаштування Pages:</strong> Чи увімкнено GitHub Pages?</li>
+                        <li><strong>Назва репозиторію:</strong> Чи правильно написана назва?</li>
+                        <li><strong>Файли:</strong> Чи є файл index.html в корені?</li>
+                        <li><strong>Зачекайте:</strong> GitHub Pages може оновлюватися до 10 хвилин</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Навігація -->
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="index.html" class="btn">
+                    <i class="fas fa-home"></i> Головна сторінка
+                </a>
+                <a href="check-links.html" class="btn btn-secondary">
+                    <i class="fas fa-link"></i> Перевірка посилань
+                </a>
+                <a href="check-site.html" class="btn btn-warning">
+                    <i class="fas fa-search"></i> Перевірка статусу
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Діагностика
+        function runDiagnostics() {
+            const results = document.getElementById('diagnostic-results');
+            results.innerHTML = '<div class="test-info"><i class="fas fa-spinner fa-spin"></i> Запуск діагностики...</div>';
+            
+            setTimeout(() => {
+                const diagnostics = [];
+                
+                // Перевірка поточного домену
+                const currentDomain = window.location.hostname;
+                if (currentDomain === 'jeckaptikai-dotcom.github.io') {
+                    diagnostics.push({
+                        type: 'success',
+                        message: '✅ Сайт завантажено з GitHub Pages'
+                    });
+                } else {
+                    diagnostics.push({
+                        type: 'warning',
+                        message: '⚠️ Сайт завантажено локально або з іншого домену'
+                    });
+                }
+                
+                // Перевірка localStorage
+                try {
+                    const categories = JSON.parse(localStorage.getItem('categories') || '[]');
+                    const menuItems = JSON.parse(localStorage.getItem('menuItems') || '[]');
+                    diagnostics.push({
+                        type: 'success',
+                        message: `✅ localStorage працює: ${categories.length} категорій, ${menuItems.length} продуктів`
+                    });
+                } catch (error) {
+                    diagnostics.push({
+                        type: 'error',
+                        message: '❌ Помилка localStorage: ' + error.message
+                    });
+                }
+                
+                // Перевірка інтернет-з'єднання
+                if (navigator.onLine) {
+                    diagnostics.push({
+                        type: 'success',
+                        message: '✅ Інтернет-з\'єднання працює'
+                    });
+                } else {
+                    diagnostics.push({
+                        type: 'error',
+                        message: '❌ Немає інтернет-з\'єднання'
+                    });
+                }
+                
+                // Відображення результатів
+                results.innerHTML = diagnostics.map(d => 
+                    `<div class="test-${d.type}"><i class="fas fa-${d.type === 'success' ? 'check-circle' : d.type === 'error' ? 'times-circle' : 'exclamation-triangle'}"></i> ${d.message}</div>`
+                ).join('');
+            }, 1000);
+        }
+
+        // Тестування посилань
+        function testAllLinks() {
+            const links = [
+                { id: 'main-status', url: 'https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/' },
+                { id: 'simple-status', url: 'https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/simple-url.html' },
+                { id: 'sync-status', url: 'https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/sync-data.html' },
+                { id: 'repo-status', url: 'https://github.com/jeckaptikai-dotcom/-bakery-hodosivka' },
+                { id: 'pages-status', url: 'https://github.com/jeckaptikai-dotcom/-bakery-hodosivka/settings/pages' }
+            ];
+            
+            links.forEach(link => {
+                const statusElement = document.getElementById(link.id);
+                const indicator = statusElement.previousElementSibling;
+                
+                statusElement.textContent = 'Тестується...';
+                indicator.className = 'status-indicator status-testing';
+                
+                fetch(link.url, { method: 'HEAD' })
+                    .then(response => {
+                        if (response.ok) {
+                            statusElement.textContent = '✅ Працює';
+                            indicator.className = 'status-indicator status-working';
+                        } else {
+                            statusElement.textContent = `❌ Помилка ${response.status}`;
+                            indicator.className = 'status-indicator status-broken';
+                        }
+                    })
+                    .catch(error => {
+                        statusElement.textContent = '❌ Недоступно';
+                        indicator.className = 'status-indicator status-broken';
+                        console.log('Error testing link:', link.url, error.message);
+                    });
+            });
+        }
+
+        // Перевірка GitHub статусу
+        function checkGitHubStatus() {
+            const results = document.getElementById('diagnostic-results');
+            results.innerHTML = '<div class="test-info"><i class="fas fa-spinner fa-spin"></i> Перевірка GitHub...</div>';
+            
+            fetch('https://api.github.com/repos/jeckaptikai-dotcom/-bakery-hodosivka')
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error(`GitHub API returned ${response.status}`);
+                    }
+                })
+                .then(data => {
+                    results.innerHTML = `
+                        <div class="test-success">
+                            <i class="fas fa-check-circle"></i> ✅ Репозиторій існує: ${data.name}
+                        </div>
+                        <div class="test-info">
+                            <i class="fas fa-info-circle"></i> 📊 Статистика: ${data.stargazers_count} зірок, ${data.forks_count} форків
+                        </div>
+                        <div class="test-info">
+                            <i class="fas fa-calendar"></i> 📅 Створено: ${new Date(data.created_at).toLocaleDateString('uk-UA')}
+                        </div>
+                    `;
+                })
+                .catch(error => {
+                    results.innerHTML = `
+                        <div class="test-error">
+                            <i class="fas fa-times-circle"></i> ❌ Репозиторій не знайдено: ${error.message}
+                        </div>
+                        <div class="test-warning">
+                            <i class="fas fa-exclamation-triangle"></i> ⚠️ Можливо, репозиторій приватний або не існує
+                        </div>
+                    `;
+                });
+        }
+
+        // Автоматичний запуск при завантаженні
+        window.addEventListener('load', function() {
+            console.log('🔍 Diagnostic page loaded');
+            setTimeout(runDiagnostics, 1000);
+        });
+    </script>
+</body>
+</html>
+

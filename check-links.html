@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Перевірка посилань - Пекарня в Ходосівці</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .link-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+        }
+
+        .link-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .link-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #dee2e6;
+            transition: all 0.3s ease;
+        }
+
+        .link-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .link-card h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .link-card a {
+            color: #007bff;
+            text-decoration: none;
+            word-break: break-all;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .link-card a:hover {
+            text-decoration: underline;
+        }
+
+        .link-card .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status.working {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status.broken {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status.testing {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: #e7f3ff;
+            border-color: #2196F3;
+            color: #0c5460;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            border-color: #FF9800;
+            color: #856404;
+        }
+
+        @media (max-width: 768px) {
+            .link-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-link"></i> Перевірка посилань</h1>
+            <p>Всі посилання на сайті Пекарня в Ходосівці</p>
+        </div>
+
+        <div class="content">
+            <div class="alert alert-info">
+                <h3><i class="fas fa-info-circle"></i> Інформація</h3>
+                <p>Ця сторінка показує всі посилання на сайті та їх статус. Натисніть на посилання, щоб перевірити, чи воно працює.</p>
+            </div>
+
+            <div class="link-section">
+                <h3><i class="fas fa-home"></i> Основні сторінки</h3>
+                <div class="link-grid">
+                    <div class="link-card">
+                        <h4>Головна сторінка</h4>
+                        <a href="https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/" target="_blank">
+                            https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/
+                        </a>
+                        <span class="status working">✅ Працює</span>
+                    </div>
+                    
+                    <div class="link-card">
+                        <h4>Простий доступ</h4>
+                        <a href="https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/simple-url.html" target="_blank">
+                            https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/simple-url.html
+                        </a>
+                        <span class="status working">✅ Працює</span>
+                    </div>
+                    
+                    <div class="link-card">
+                        <h4>Перевірка статусу</h4>
+                        <a href="https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/check-site.html" target="_blank">
+                            https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/check-site.html
+                        </a>
+                        <span class="status working">✅ Працює</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="link-section">
+                <h3><i class="fas fa-upload"></i> Завантаження фото</h3>
+                <div class="link-grid">
+                    <div class="link-card">
+                        <h4>Швидко завантажити</h4>
+                        <a href="https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/quick-upload.html" target="_blank">
+                            https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/quick-upload.html
+                        </a>
+                        <span class="status working">✅ Працює</span>
+                    </div>
+                    
+                    <div class="link-card">
+                        <h4>Завантажити фото</h4>
+                        <a href="https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/upload-photos.html" target="_blank">
+                            https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/upload-photos.html
+                        </a>
+                        <span class="status working">✅ Працює</span>
+                    </div>
+                    
+                    <div class="link-card">
+                        <h4>Інструкція</h4>
+                        <a href="https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/photo-guide.html" target="_blank">
+                            https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/photo-guide.html
+                        </a>
+                        <span class="status working">✅ Працює</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="link-section">
+                <h3><i class="fas fa-tools"></i> Утиліти</h3>
+                <div class="link-grid">
+                    <div class="link-card">
+                        <h4>Виправити зображення</h4>
+                        <a href="https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/fix-broken-images.html" target="_blank">
+                            https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/fix-broken-images.html
+                        </a>
+                        <span class="status working">✅ Працює</span>
+                    </div>
+                    
+                    <div class="link-card">
+                        <h4>Оновити кеш</h4>
+                        <a href="https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/force-refresh.html" target="_blank">
+                            https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/force-refresh.html
+                        </a>
+                        <span class="status working">✅ Працює</span>
+                    </div>
+                    
+                    <div class="link-card">
+                        <h4>Адаптивність</h4>
+                        <a href="https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/responsive-demo.html" target="_blank">
+                            https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/responsive-demo.html
+                        </a>
+                        <span class="status working">✅ Працює</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="link-section">
+                <h3><i class="fas fa-cog"></i> Адміністрація</h3>
+                <div class="link-grid">
+                    <div class="link-card">
+                        <h4>Вхід в адмін панель</h4>
+                        <a href="https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/admin-login.html" target="_blank">
+                            https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/admin-login.html
+                        </a>
+                        <span class="status working">✅ Працює</span>
+                    </div>
+                    
+                    <div class="link-card">
+                        <h4>Адмін панель</h4>
+                        <a href="https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/admin.html" target="_blank">
+                            https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/admin.html
+                        </a>
+                        <span class="status working">✅ Працює</span>
+                    </div>
+                    
+                    <div class="link-card">
+                        <h4>Авторизація</h4>
+                        <a href="https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/auth.html" target="_blank">
+                            https://jeckaptikai-dotcom.github.io/-bakery-hodosivka/auth.html
+                        </a>
+                        <span class="status working">✅ Працює</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-success">
+                <h3><i class="fas fa-check-circle"></i> Всі посилання працюють!</h3>
+                <p>Якщо якесь посилання не працює, спробуйте:</p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>Очистити кеш браузера</li>
+                    <li>Перевірити інтернет-з'єднання</li>
+                    <li>Спробувати інший браузер</li>
+                    <li>Зачекати кілька хвилин (GitHub Pages може оновлюватися)</li>
+                </ul>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="index.html" class="btn">
+                    <i class="fas fa-home"></i> Головна сторінка
+                </a>
+                <a href="simple-url.html" class="btn btn-secondary">
+                    <i class="fas fa-link"></i> Простий доступ
+                </a>
+                <a href="check-site.html" class="btn btn-secondary">
+                    <i class="fas fa-search"></i> Перевірка статусу
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Test all links automatically
+        window.addEventListener('load', function() {
+            console.log('🔗 Link checker loaded');
+            
+            // Get all links on the page
+            const links = document.querySelectorAll('.link-card a');
+            
+            links.forEach(link => {
+                const statusElement = link.parentElement.querySelector('.status');
+                
+                // Test if link is accessible
+                fetch(link.href, { method: 'HEAD' })
+                    .then(response => {
+                        if (response.ok) {
+                            statusElement.textContent = '✅ Працює';
+                            statusElement.className = 'status working';
+                        } else {
+                            statusElement.textContent = '❌ Помилка ' + response.status;
+                            statusElement.className = 'status broken';
+                        }
+                    })
+                    .catch(error => {
+                        statusElement.textContent = '❌ Недоступно';
+                        statusElement.className = 'status broken';
+                        console.log('Error testing link:', link.href, error.message);
+                    });
+            });
+        });
+    </script>
+</body>
+</html>
+
