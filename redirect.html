@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔄 Перенаправлення - Пекарня в Ходосівці</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #DBC2A6 0%, #F5E6D3 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #4D372C;
+        }
+        
+        .redirect-container {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 90%;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            object-fit: cover;
+        }
+        
+        h1 {
+            color: #4D372C;
+            margin-bottom: 20px;
+        }
+        
+        .loading {
+            margin: 20px 0;
+        }
+        
+        .spinner {
+            border: 4px solid #FDF5E6;
+            border-top: 4px solid #8B7355;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .manual-link {
+            margin-top: 20px;
+            padding: 15px 30px;
+            background: #8B7355;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            display: inline-block;
+            font-weight: 600;
+        }
+        
+        .manual-link:hover {
+            background: #4D372C;
+        }
+    </style>
+</head>
+<body>
+    <div class="redirect-container">
+        <img src="logo.jpg" alt="Пекарня в Ходосівці" class="logo">
+        
+        <h1>🔄 Перенаправлення...</h1>
+        
+        <p>Ви перенаправляєтесь на нову версію сайту з правильною темою пекарні.</p>
+        
+        <div class="loading">
+            <div class="spinner"></div>
+            <p>Завантаження нової версії...</p>
+        </div>
+        
+        <a href="bakery-main.html" class="manual-link">
+            Відкрити нову версію вручну
+        </a>
+    </div>
+    
+    <script>
+        // Автоматичне перенаправлення через 3 секунди
+        setTimeout(() => {
+            window.location.href = 'bakery-main.html';
+        }, 3000);
+        
+        // Перенаправлення при кліку на сторінку
+        document.addEventListener('click', () => {
+            window.location.href = 'bakery-main.html';
+        });
+        
+        // Перенаправлення при натисканні клавіші
+        document.addEventListener('keydown', () => {
+            window.location.href = 'bakery-main.html';
+        });
+    </script>
+</body>
+</html>
