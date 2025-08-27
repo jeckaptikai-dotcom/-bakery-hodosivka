@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔄 Примусове оновлення - Пекарня в Ходосівці</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #DBC2A6 0%, #F5E6D3 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            object-fit: cover;
+        }
+        
+        h1 {
+            color: #4D372C;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .status {
+            background: #FDF5E6;
+            border: 2px solid #DBC2A6;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .status.success {
+            background: #E8F5E8;
+            border-color: #4CAF50;
+        }
+        
+        .status.error {
+            background: #FFEBEE;
+            border-color: #F44336;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin: 10px;
+        }
+        
+        .btn-primary {
+            background: #4D372C;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #8B7355;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #DBC2A6;
+            color: #4D372C;
+        }
+        
+        .btn-secondary:hover {
+            background: #8B7355;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .instructions {
+            text-align: left;
+            margin: 30px 0;
+            padding: 20px;
+            background: #F5F5F5;
+            border-radius: 10px;
+        }
+        
+        .instructions h3 {
+            color: #4D372C;
+            margin-bottom: 15px;
+        }
+        
+        .instructions ol {
+            color: #4D372C;
+            line-height: 1.6;
+        }
+        
+        .instructions li {
+            margin: 10px 0;
+        }
+        
+        .timestamp {
+            color: #8B7355;
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="logo.jpg" alt="Пекарня в Ходосівці" class="logo">
+        
+        <h1>🔄 Примусове оновлення</h1>
+        
+        <div class="status success">
+            <i class="fas fa-check-circle"></i>
+            <strong>Синхронізація завершена!</strong><br>
+            Всі зміни завантажені на GitHub
+        </div>
+        
+        <div class="instructions">
+            <h3>📱 Як оновити сайт на телефоні:</h3>
+            <ol>
+                <li><strong>Очистіть кеш браузера:</strong>
+                    <ul>
+                        <li>Safari: Налаштування → Safari → Очистити історію та дані</li>
+                        <li>Chrome: Налаштування → Конфіденційність → Очистити дані</li>
+                    </ul>
+                </li>
+                <li><strong>Примусове оновлення:</strong> Потягніть сторінку вниз (pull-to-refresh)</li>
+                <li><strong>Або:</strong> Закрийте браузер і відкрийте знову</li>
+                <li><strong>Або:</strong> Додайте параметр ?v=2 до URL</li>
+            </ol>
+        </div>
+        
+        <div class="buttons">
+            <a href="index.html?v=2" class="btn btn-primary">
+                <i class="fas fa-home"></i>
+                Головна сторінка (з оновленням)
+            </a>
+            <a href="admin.html?v=2" class="btn btn-secondary">
+                <i class="fas fa-cog"></i>
+                Адмін панель (з оновленням)
+            </a>
+        </div>
+        
+        <div class="buttons">
+            <a href="simple-url.html?v=2" class="btn btn-secondary">
+                <i class="fas fa-link"></i>
+                Простий URL (з оновленням)
+            </a>
+            <a href="auto-sync.html?v=2" class="btn btn-secondary">
+                <i class="fas fa-sync"></i>
+                Автосинхронізація
+            </a>
+        </div>
+        
+        <div class="timestamp">
+            <i class="fas fa-clock"></i>
+            Останнє оновлення: <span id="timestamp"></span>
+        </div>
+    </div>
+    
+    <script>
+        // Показуємо поточний час
+        document.getElementById('timestamp').textContent = new Date().toLocaleString('uk-UA');
+        
+        // Примусове оновлення при завантаженні
+        if (window.performance && window.performance.navigation.type === window.performance.navigation.TYPE_BACK_FORWARD) {
+            window.location.reload(true);
+        }
+        
+        // Додаємо параметр для уникнення кешування
+        if (!window.location.search.includes('v=')) {
+            window.location.search = '?v=2';
+        }
+    </script>
+</body>
+</html>
