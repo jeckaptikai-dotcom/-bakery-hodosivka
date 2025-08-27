@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍞 Пекарня в Ходосівці - Оригінальний дизайн</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #4D372C;
+            background-color: #FDF5E6;
+            overflow-x: hidden;
+        }
+
+        /* Header styles */
+        .header {
+            background: linear-gradient(135deg, #DBC2A6 0%, #8B7355 100%);
+            color: #4D372C;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(77, 55, 44, 0.1);
+        }
+
+        .navbar {
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #4D372C;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #4D372C;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #4D372C;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+        }
+
+        .nav-link:hover {
+            background: rgba(77, 55, 44, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .auth-link {
+            background: #8B7355;
+            color: white !important;
+            border: 1px solid #8B7355;
+        }
+
+        .admin-link {
+            background: #4D372C;
+            color: white !important;
+            border: 1px solid #4D372C;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .bar {
+            width: 25px;
+            height: 3px;
+            background: #4D372C;
+            transition: all 0.3s ease;
+        }
+
+        /* Hero section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            margin-top: 80px;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+        }
+
+        .hero-bg-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #8B7355 0%, #4D372C 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Section styles */
+        .section {
+            padding: 5rem 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: #4D372C;
+        }
+
+        /* About section */
+        .about {
+            background: #f8f9fa;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #666;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature i {
+            font-size: 3rem;
+            color: #8B7355;
+            margin-bottom: 1rem;
+        }
+
+        .feature h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #4D372C;
+        }
+
+        /* Menu section */
+        .menu {
+            background: white;
+        }
+
+        .menu-categories {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 0.8rem 1.5rem;
+            border: 2px solid #8B7355;
+            background: transparent;
+            color: #8B7355;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background: #8B7355;
+            color: white;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .menu-item {
+            background: #FDF5E6;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .menu-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .menu-content {
+            padding: 1.5rem;
+        }
+
+        .menu-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #4D372C;
+        }
+
+        .menu-content p {
+            color: #8B7355;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #4D372C;
+        }
+
+        /* Contact section */
+        .contact {
+            background: #f8f9fa;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .contact-item i {
+            font-size: 2rem;
+            color: #8B7355;
+            margin-top: 0.5rem;
+        }
+
+        .contact-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #4D372C;
+        }
+
+        .contact-item p {
+            color: #8B7355;
+        }
+
+        .contact-item a {
+            color: #8B7355;
+            text-decoration: none;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-form h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #4D372C;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #8B7355;
+            box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.1);
+        }
+
+        /* Footer */
+        .footer {
+            background: #4D372C;
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer-logo-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #8B7355;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .footer-social a {
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            color: #8B7355;
+            transform: translateY(-2px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #DBC2A6;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-categories {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .loaded .loading {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .feature:nth-child(1) { animation-delay: 0.1s; }
+        .feature:nth-child(2) { animation-delay: 0.2s; }
+        .feature:nth-child(3) { animation-delay: 0.3s; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <img src="logo.jpg" alt="Пекарня в Ходосівці" class="logo-img">
+                    <span class="logo-text">Пекарня в Ходосівці</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#home" class="nav-link">Головна</a></li>
+                    <li><a href="#about" class="nav-link">Про нас</a></li>
+                    <li><a href="#menu" class="nav-link">Меню</a></li>
+                    <li><a href="#contact" class="nav-link">Контакти</a></li>
+                    <li><a href="auth.html" class="nav-link auth-link">Увійти</a></li>
+                    <li><a href="admin.html" class="nav-link admin-link">Адмін</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-background">
+            <img src="hero-bread.jpg" alt="Свіжа випічка" class="hero-bg-img">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title loading">Свіжа випічка щодня</h1>
+                <p class="hero-subtitle loading">Натуральні інгредієнти та традиційні рецепти для найкращого смаку</p>
+                <div class="hero-buttons">
+                    <a href="#menu" class="btn btn-primary loading">Переглянути меню</a>
+                    <a href="#contact" class="btn btn-secondary loading">Замовити</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+        <div class="container">
+            <h2 class="section-title loading">Про нашу пекарню</h2>
+            <div class="about-content">
+                <div class="about-text loading">
+                    <p>Наша пекарня в Ходосівці - це місце, де традиції зустрічаються з якістю. Ми випікаємо свіжий хліб та кондитерські вироби щодня, використовуючи тільки натуральні інгредієнти.</p>
+                    <div class="features">
+                        <div class="feature loading">
+                            <i class="fas fa-leaf"></i>
+                            <h3>Натуральні інгредієнти</h3>
+                            <p>Тільки найкращі та свіжі інгредієнти</p>
+                        </div>
+                        <div class="feature loading">
+                            <i class="fas fa-clock"></i>
+                            <h3>Свіжа випічка</h3>
+                            <p>Щодня з ранку до вечора</p>
+                        </div>
+                        <div class="feature loading">
+                            <i class="fas fa-heart"></i>
+                            <h3>З любов'ю</h3>
+                            <p>Кожен виріб створюється з душею</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="menu section">
+        <div class="container">
+            <h2 class="section-title loading">Наше меню</h2>
+            <div class="menu-categories">
+                <button class="category-btn active" data-category="all">Всі</button>
+                <button class="category-btn" data-category="bread">Хліб</button>
+                <button class="category-btn" data-category="pastry">Випічка</button>
+                <button class="category-btn" data-category="cakes">Торти</button>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-item" data-category="bread">
+                    <img src="hero-bread.jpg" alt="Білий хліб" class="menu-img">
+                    <div class="menu-content">
+                        <h3>Білий хліб</h3>
+                        <p>Класичний білий хліб з хрусткою скоринкою</p>
+                        <span class="price">15 грн</span>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="bread">
+                    <img src="logo.jpg" alt="Житній хліб" class="menu-img">
+                    <div class="menu-content">
+                        <h3>Житній хліб</h3>
+                        <p>Поживний житній хліб з насінням</p>
+                        <span class="price">18 грн</span>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="pastry">
+                    <img src="logo.jpg" alt="Круасан" class="menu-img">
+                    <div class="menu-content">
+                        <h3>Круасан</h3>
+                        <p>Смачний круасан з маслом</p>
+                        <span class="price">25 грн</span>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="cakes">
+                    <img src="logo.jpg" alt="Торт" class="menu-img">
+                    <div class="menu-content">
+                        <h3>Торт "Наполеон"</h3>
+                        <p>Класичний торт з вершковим кремом</p>
+                        <span class="price">120 грн</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section">
+        <div class="container">
+            <h2 class="section-title loading">Контакти</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item loading">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h3>Адреса</h3>
+                            <p>вул. Феодосія Печерського, 1<br>Ходосівка, Київська область, 08173</p>
+                        </div>
+                    </div>
+                    <div class="contact-item loading">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h3>Телефон</h3>
+                            <p><a href="tel:+380976492525">+380 97 649 2525</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-item loading">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h3>Графік роботи</h3>
+                            <p>Щодня з 08:00 до 21:00</p>
+                        </div>
+                    </div>
+                    <div class="contact-item loading">
+                        <i class="fas fa-user-shield"></i>
+                        <div>
+                            <h3>Творець системи</h3>
+                            <p>@mm.slmn</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <h3>Замовити</h3>
+                    <form class="form">
+                        <div class="form-group">
+                            <input type="text" placeholder="Ваше ім'я" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" placeholder="Телефон" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea placeholder="Що хочете замовити?" rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Відправити замовлення</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="logo.jpg" alt="Пекарня в Ходосівці" class="footer-logo-img">
+                    <div>
+                        <h3>Пекарня в Ходосівці</h3>
+                        <p>Свіжа випічка щодня</p>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <a href="#home">Головна</a>
+                    <a href="#about">Про нас</a>
+                    <a href="#menu">Меню</a>
+                    <a href="#contact">Контакти</a>
+                </div>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Пекарня в Ходосівці. Всі права захищені.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Category filtering
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        const menuItems = document.querySelectorAll('.menu-item');
+
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const category = btn.dataset.category;
+                
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                menuItems.forEach(item => {
+                    if (category === 'all' || item.dataset.category === category) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Loading animation
+        window.addEventListener('load', () => {
+            document.body.classList.add('loaded');
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(219, 194, 166, 0.95)';
+                header.style.backdropFilter = 'blur(10px)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #DBC2A6 0%, #8B7355 100%)';
+                header.style.backdropFilter = 'none';
+            }
+        });
+
+        console.log('🍞 Original bakery design loaded successfully');
+    </script>
+</body>
+</html>
