@@ -550,6 +550,49 @@
             }, 5000);
         }
 
+        // Перевірка авторизації
+        function checkAuth() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const currentUser = localStorage.getItem('currentUser');
+            
+            if (!isLoggedIn || !currentUser) {
+                alert('Будь ласка, увійдіть в систему!');
+                window.location.href = 'simple-auth.html';
+                return false;
+            }
+            
+            // Показуємо інформацію про користувача
+            const userInfo = document.createElement('div');
+            userInfo.innerHTML = `
+                <div style="background: #E8F5E8; color: #2E7D32; padding: 10px; border-radius: 10px; margin-bottom: 20px; text-align: center;">
+                    <i class="fas fa-user"></i> Увійшли як: <strong>${currentUser}</strong>
+                    <button onclick="logout()" style="background: #C62828; color: white; border: none; padding: 5px 10px; border-radius: 5px; margin-left: 10px; cursor: pointer;">
+                        <i class="fas fa-sign-out-alt"></i> Вийти
+                    </button>
+                </div>
+            `;
+            
+            // Додаємо інформацію про користувача після заголовка
+            const header = document.querySelector('.header');
+            header.appendChild(userInfo);
+            
+            return true;
+        }
+
+        // Вихід з системи
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('currentUser');
+            alert('Ви вийшли з системи!');
+            window.location.href = 'simple-auth.html';
+        }
+
+        // Перевіряємо авторизацію при завантаженні
+        if (!checkAuth()) {
+            // Якщо не авторизований, скрипт зупиниться тут
+            throw new Error('Unauthorized');
+        }
+
         console.log('🍞 Netlify Admin Panel loaded successfully');
     </script>
 </body>
