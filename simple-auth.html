@@ -321,11 +321,14 @@
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const username = document.getElementById('loginUsername').value;
+            const username = document.getElementById('loginUsername').value.trim();
             const password = document.getElementById('loginPassword').value;
+            
+            console.log('Спроба входу:', { username, password });
             
             // Перевіряємо тестові дані
             if (username === 'admin' && password === 'bakery2024') {
+                console.log('Успішний вхід з тестовими даними');
                 showMessage('Успішний вхід! Перенаправлення...', 'success');
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('currentUser', username);
@@ -333,12 +336,18 @@
                 setTimeout(() => {
                     window.location.href = 'netlify-admin.html';
                 }, 1500);
-            } else {
-                // Перевіряємо зареєстровані користувачі
+                return;
+            }
+            
+            // Перевіряємо зареєстровані користувачі
+            try {
                 const users = JSON.parse(localStorage.getItem('users') || '[]');
+                console.log('Зареєстровані користувачі:', users);
+                
                 const user = users.find(u => u.username === username && u.password === password);
                 
                 if (user) {
+                    console.log('Успішний вхід з зареєстрованим користувачем');
                     showMessage('Успішний вхід! Перенаправлення...', 'success');
                     localStorage.setItem('isLoggedIn', 'true');
                     localStorage.setItem('currentUser', username);
@@ -347,8 +356,12 @@
                         window.location.href = 'netlify-admin.html';
                     }, 1500);
                 } else {
+                    console.log('Користувач не знайдений');
                     showMessage('Неправильний логін або пароль', 'error');
                 }
+            } catch (error) {
+                console.error('Помилка при перевірці користувачів:', error);
+                showMessage('Помилка при перевірці користувачів', 'error');
             }
         });
 
