@@ -720,6 +720,7 @@
                     <li><a href="simple-auth.html" class="nav-link auth-link">Увійти</a></li>
                     <li><a href="netlify-admin.html" class="nav-link admin-link">Адмін (Netlify)</a></li>
                     <li><a href="admin.html" class="nav-link admin-link">Адмін (GitHub)</a></li>
+                    <li><a href="#" onclick="loginAsAdmin()" class="nav-link admin-link">🔐 Увійти як адмін</a></li>
                 </ul>
                 <div class="hamburger">
                     <span class="bar"></span>
@@ -1125,6 +1126,19 @@
         
         // Запуск автоматичної синхронізації
         setupAutoSync();
+        
+        // Функція для швидкого входу як адмін
+        function loginAsAdmin() {
+            if (confirm('Увійти як адміністратор?')) {
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('currentUser', 'Адміністратор');
+                localStorage.setItem('isAdmin', 'true');
+                alert('Успішно увійшли як адміністратор! Перенаправлення...');
+                setTimeout(() => {
+                    window.location.href = 'netlify-admin.html';
+                }, 1000);
+            }
+        }
     </script>
 </body>
 </html> 
