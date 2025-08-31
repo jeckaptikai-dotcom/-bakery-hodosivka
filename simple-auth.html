@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 Простий вхід - Пекарня в Ходосівці</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #DBC2A6 0%, #F5E6D3 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .auth-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            object-fit: cover;
+        }
+
+        h1 {
+            color: #4D372C;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            color: #8B7355;
+            margin-bottom: 30px;
+        }
+
+        .tabs {
+            display: flex;
+            background: #FDF5E6;
+            border-radius: 10px;
+            padding: 5px;
+            margin-bottom: 30px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: transparent;
+            color: #8B7355;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: #4D372C;
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4D372C;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #DBC2A6;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: #FDF5E6;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #8B7355;
+            box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.1);
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #8B7355;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: #4D372C;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #8B7355;
+            transform: translateY(-2px);
+        }
+
+        .error {
+            background: #FFEBEE;
+            color: #C62828;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 1px solid #F44336;
+        }
+
+        .success {
+            background: #E8F5E8;
+            color: #2E7D32;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 1px solid #4CAF50;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #8B7355;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            padding: 10px 15px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(139, 115, 85, 0.1);
+        }
+
+        .form {
+            display: none;
+        }
+
+        .form.active {
+            display: block;
+        }
+
+        .credentials-info {
+            background: #E3F2FD;
+            color: #1565C0;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 1px solid #2196F3;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <img src="logo.jpg" alt="Пекарня в Ходосівці" class="logo">
+        
+        <h1>🔐 Простий вхід</h1>
+        <p class="subtitle">Пекарня в Ходосівці</p>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('login')">Увійти</button>
+            <button class="tab" onclick="switchTab('register')">Реєстрація</button>
+        </div>
+
+        <!-- Форма входу -->
+        <form class="form active" id="loginForm">
+            <div class="form-group">
+                <label>Логін:</label>
+                <input type="text" id="loginUsername" placeholder="admin" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Пароль:</label>
+                <div class="password-container">
+                    <input type="password" id="loginPassword" placeholder="Введіть пароль" required>
+                    <button type="button" class="password-toggle" onclick="togglePassword('loginPassword')">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-sign-in-alt"></i>
+                Увійти
+            </button>
+        </form>
+
+        <!-- Форма реєстрації -->
+        <form class="form" id="registerForm">
+            <div class="form-group">
+                <label>Логін:</label>
+                <input type="text" id="registerUsername" placeholder="Введіть логін" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Пароль:</label>
+                <div class="password-container">
+                    <input type="password" id="registerPassword" placeholder="Введіть пароль" required>
+                    <button type="button" class="password-toggle" onclick="togglePassword('registerPassword')">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Підтвердіть пароль:</label>
+                <div class="password-container">
+                    <input type="password" id="confirmPassword" placeholder="Повторіть пароль" required>
+                    <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-user-plus"></i>
+                Зареєструватися
+            </button>
+        </form>
+
+        <div id="message"></div>
+
+        <div class="credentials-info">
+            <strong>Тестові дані для входу:</strong><br>
+            Логін: <code>admin</code><br>
+            Пароль: <code>bakery2024</code>
+        </div>
+
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+            Повернутися на головну
+        </a>
+    </div>
+
+    <script>
+        // Переключення між формами
+        function switchTab(tab) {
+            // Оновлюємо активну вкладку
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Показуємо відповідну форму
+            document.querySelectorAll('.form').forEach(f => f.classList.remove('active'));
+            if (tab === 'login') {
+                document.getElementById('loginForm').classList.add('active');
+            } else {
+                document.getElementById('registerForm').classList.add('active');
+            }
+            
+            // Очищаємо повідомлення
+            document.getElementById('message').innerHTML = '';
+        }
+
+        // Переключення видимості пароля
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const button = input.nextElementSibling;
+            const icon = button.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fas fa-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'fas fa-eye';
+            }
+        }
+
+        // Обробка форми входу
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Перевіряємо тестові дані
+            if (username === 'admin' && password === 'bakery2024') {
+                showMessage('Успішний вхід! Перенаправлення...', 'success');
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('currentUser', username);
+                
+                setTimeout(() => {
+                    window.location.href = 'netlify-admin.html';
+                }, 1500);
+            } else {
+                // Перевіряємо зареєстровані користувачі
+                const users = JSON.parse(localStorage.getItem('users') || '[]');
+                const user = users.find(u => u.username === username && u.password === password);
+                
+                if (user) {
+                    showMessage('Успішний вхід! Перенаправлення...', 'success');
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('currentUser', username);
+                    
+                    setTimeout(() => {
+                        window.location.href = 'netlify-admin.html';
+                    }, 1500);
+                } else {
+                    showMessage('Неправильний логін або пароль', 'error');
+                }
+            }
+        });
+
+        // Обробка форми реєстрації
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('registerUsername').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                showMessage('Паролі не співпадають', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showMessage('Пароль повинен містити мінімум 6 символів', 'error');
+                return;
+            }
+            
+            // Зберігаємо нового користувача
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            if (users.find(u => u.username === username)) {
+                showMessage('Користувач з таким логіном вже існує', 'error');
+                return;
+            }
+            
+            users.push({
+                username: username,
+                password: password,
+                date: new Date().toISOString()
+            });
+            
+            localStorage.setItem('users', JSON.stringify(users));
+            showMessage('Реєстрація успішна! Тепер можете увійти', 'success');
+            
+            // Переключаємося на форму входу
+            setTimeout(() => {
+                switchTab('login');
+                document.getElementById('loginUsername').value = username;
+            }, 2000);
+        });
+
+        // Показ повідомлень
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.innerHTML = `<div class="${type}">${text}</div>`;
+            
+            setTimeout(() => {
+                messageDiv.innerHTML = '';
+            }, 5000);
+        }
+
+        // Перевірка чи користувач вже увійшов
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            window.location.href = 'netlify-admin.html';
+        }
+
+        console.log('🔐 Simple Auth loaded successfully');
+    </script>
+</body>
+</html>
