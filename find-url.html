@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍 Знайти URL сайту - Пекарня в Ходосівці</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #DBC2A6 0%, #F5E6D3 100%);
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .info { background: #d1ecf1; color: #0c5460; }
+        .success { background: #d4edda; color: #155724; }
+        .warning { background: #fff3cd; color: #856404; }
+        .error { background: #f8d7da; color: #721c24; }
+        button {
+            background: #4D372C;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background: #8B7355;
+            transform: translateY(-2px);
+        }
+        .url-box {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 14px;
+            word-break: break-all;
+        }
+        .step {
+            background: #f8f9fa;
+            border-left: 4px solid #4D372C;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .step h4 {
+            margin: 0 0 10px 0;
+            color: #4D372C;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Знайти URL вашого Netlify сайту</h1>
+        
+        <div class="status info">
+            <strong>Поточний URL:</strong> <span id="currentUrl"></span>
+        </div>
+
+        <div class="step">
+            <h4>📋 Крок 1: Перевірте GitHub репозиторій</h4>
+            <p>Ваш репозиторій: <strong>jeckaptikai-dotcom/-bakery-hodosivka</strong></p>
+            <a href="https://github.com/jeckaptikai-dotcom/-bakery-hodosivka" target="_blank">
+                <button>🔗 Відкрити на GitHub</button>
+            </a>
+        </div>
+
+        <div class="step">
+            <h4>🚀 Крок 2: Перевірте Netlify</h4>
+            <p>Якщо ви налаштували Netlify, ваш URL буде типу:</p>
+            <div class="url-box">
+                https://[назва-сайту].netlify.app
+            </div>
+            <a href="https://app.netlify.com" target="_blank">
+                <button>🔗 Відкрити Netlify</button>
+            </a>
+        </div>
+
+        <div class="step">
+            <h4>🌐 Крок 3: Можливі URL</h4>
+            <p>Спробуйте ці посилання:</p>
+            <div class="url-box">
+                <a href="https://bakery-hodosivka.netlify.app" target="_blank">https://bakery-hodosivka.netlify.app</a><br>
+                <a href="https://bakery-hodosivka-2024.netlify.app" target="_blank">https://bakery-hodosivka-2024.netlify.app</a><br>
+                <a href="https://hodosivka-bakery.netlify.app" target="_blank">https://hodosivka-bakery.netlify.app</a><br>
+                <a href="https://jeckaptikai-dotcom-bakery.netlify.app" target="_blank">https://jeckaptikai-dotcom-bakery.netlify.app</a>
+            </div>
+        </div>
+
+        <div class="step">
+            <h4>🔧 Крок 4: Якщо Netlify не налаштований</h4>
+            <p>Якщо ви ще не налаштували Netlify:</p>
+            <ol>
+                <li>Перейдіть на <a href="https://netlify.com" target="_blank">netlify.com</a></li>
+                <li>Зареєструйтесь через GitHub</li>
+                <li>Натисніть "New site from Git"</li>
+                <li>Виберіть ваш репозиторій</li>
+                <li>Встановіть Publish directory: <code>simple_test/website</code></li>
+                <li>Натисніть "Deploy site"</li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <h4>📱 Крок 5: Тестування</h4>
+            <p>Якщо знайшли правильний URL, протестуйте:</p>
+            <button onclick="testUrls()">🧪 Тестувати можливі URL</button>
+            <div id="testResults"></div>
+        </div>
+
+        <div class="status warning">
+            <strong>💡 Порада:</strong> Якщо жоден URL не працює, можливо, вам потрібно налаштувати Netlify або перевірити налаштування розгортання.
+        </div>
+    </div>
+
+    <script>
+        // Показуємо поточний URL
+        document.getElementById('currentUrl').textContent = window.location.href;
+        
+        // Тестування можливих URL
+        async function testUrls() {
+            const urls = [
+                'https://bakery-hodosivka.netlify.app',
+                'https://bakery-hodosivka-2024.netlify.app',
+                'https://hodosivka-bakery.netlify.app',
+                'https://jeckaptikai-dotcom-bakery.netlify.app'
+            ];
+            
+            const resultsDiv = document.getElementById('testResults');
+            resultsDiv.innerHTML = '<div class="status info">Тестуємо URL...</div>';
+            
+            for (const url of urls) {
+                try {
+                    const response = await fetch(url, { method: 'HEAD', mode: 'no-cors' });
+                    resultsDiv.innerHTML += `<div class="status success">✅ ${url} - працює!</div>`;
+                    break;
+                } catch (error) {
+                    resultsDiv.innerHTML += `<div class="status error">❌ ${url} - не працює</div>`;
+                }
+            }
+        }
+        
+        console.log('🔍 Find URL page loaded');
+    </script>
+</body>
+</html>
