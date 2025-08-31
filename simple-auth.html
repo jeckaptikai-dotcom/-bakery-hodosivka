@@ -272,7 +272,11 @@
         <div id="message"></div>
 
         <div class="credentials-info">
-            <strong>Тестові дані для входу:</strong><br>
+            <strong>Дані для входу:</strong><br>
+            <strong>Адміністратор:</strong><br>
+            Логін: <code>+380688834630</code><br>
+            Пароль: <code>bakery2025</code><br><br>
+            <strong>Тестовий акаунт:</strong><br>
             Логін: <code>admin</code><br>
             Пароль: <code>bakery2024</code>
         </div>
@@ -332,6 +336,20 @@
                 showMessage('Успішний вхід! Перенаправлення...', 'success');
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('currentUser', username);
+                
+                setTimeout(() => {
+                    window.location.href = 'netlify-admin.html';
+                }, 1500);
+                return;
+            }
+            
+            // Перевіряємо адміністратора
+            if (username === '+380688834630' && password === 'bakery2025') {
+                console.log('Успішний вхід адміністратора');
+                showMessage('Успішний вхід адміністратора! Перенаправлення...', 'success');
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('currentUser', 'Адміністратор');
+                localStorage.setItem('isAdmin', 'true');
                 
                 setTimeout(() => {
                     window.location.href = 'netlify-admin.html';

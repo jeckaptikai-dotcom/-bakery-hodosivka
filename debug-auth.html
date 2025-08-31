@@ -146,6 +146,13 @@
                 return;
             }
             
+            // Перевіряємо адміністратора
+            if (username === '+380688834630' && password === 'bakery2025') {
+                resultDiv.innerHTML = '<div class="status success">✅ Адміністратор знайдений!</div>';
+                log('Адміністратор перевірений успішно', 'success');
+                return;
+            }
+            
             // Перевіряємо зареєстрованих користувачів
             const users = JSON.parse(localStorage.getItem('users') || '[]');
             const user = users.find(u => u.username === username && u.password === password);
