@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 Вхід для Михайла - Пекарня в Ходосівці</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: linear-gradient(135deg, #DBC2A6 0%, #F5E6D3 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8B7355, #4D372C);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: #4D372C;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #8B7355;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .admin-info {
+            background: #E8F5E8;
+            border: 2px solid #4CAF50;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .admin-info h3 {
+            color: #2E7D32;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .admin-info p {
+            margin: 8px 0;
+            color: #1B5E20;
+            font-size: 14px;
+        }
+
+        .admin-info strong {
+            color: #4D372C;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4D372C;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #E0E0E0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #FAFAFA;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #8B7355;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #8B7355, #4D372C);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-weight: 500;
+            display: none;
+        }
+
+        .message.success {
+            background: #D4EDDA;
+            color: #155724;
+            border: 1px solid #C3E6CB;
+        }
+
+        .message.error {
+            background: #F8D7DA;
+            color: #721C24;
+            border: 1px solid #F5C6CB;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #8B7355;
+            text-decoration: none;
+            font-size: 14px;
+            margin-top: 20px;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #4D372C;
+        }
+
+        .quick-login {
+            background: #FFF3E0;
+            border: 2px solid #FF9800;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .quick-login h4 {
+            color: #E65100;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .quick-login-btn {
+            background: #FF9800;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quick-login-btn:hover {
+            background: #F57C00;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .admin-info {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">🍞</div>
+        <h1>Вхід для Михайла</h1>
+        <p class="subtitle">Адміністратор пекарні в Ходосівці</p>
+
+        <div class="admin-info">
+            <h3>👑 Ваші дані адміністратора:</h3>
+            <p><strong>Ім'я:</strong> Михайло</p>
+            <p><strong>Телефон:</strong> +380688834630</p>
+            <p><strong>Пароль:</strong> bakery2025</p>
+            <p><strong>Роль:</strong> Головний адміністратор</p>
+        </div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="loginUsername">Телефон або логін:</label>
+                <input type="text" id="loginUsername" placeholder="+380688834630" required>
+            </div>
+
+            <div class="form-group">
+                <label for="loginPassword">Пароль:</label>
+                <input type="password" id="loginPassword" placeholder="bakery2025" required>
+            </div>
+
+            <button type="submit" class="login-btn">
+                🔐 Увійти як адміністратор
+            </button>
+        </form>
+
+        <div id="message"></div>
+
+        <div class="quick-login">
+            <h4>🚀 Швидкий вхід:</h4>
+            <button onclick="quickLogin()" class="quick-login-btn">
+                Увійти як Михайло
+            </button>
+        </div>
+
+        <a href="index.html" class="back-link">
+            ← Повернутися на головну
+        </a>
+    </div>
+
+    <script>
+        // Функція для показу повідомлень
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            messageDiv.style.display = 'block';
+            
+            // Автоматично приховуємо повідомлення через 5 секунд
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        // Швидкий вхід як Михайло
+        function quickLogin() {
+            if (confirm('Увійти як Михайло (адміністратор)?')) {
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('currentUser', 'Михайло');
+                localStorage.setItem('isAdmin', 'true');
+                localStorage.setItem('userPhone', '+380688834630');
+                
+                showMessage('Успішний вхід як Михайло! Перенаправлення...', 'success');
+                
+                setTimeout(() => {
+                    window.location.href = 'netlify-admin.html';
+                }, 1500);
+            }
+        }
+
+        // Обробка форми входу
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            
+            console.log('Спроба входу:', { username, password });
+            
+            // Перевіряємо дані Михайла
+            if ((username === '+380688834630' || username === 'Михайло' || username === 'mikhail') && 
+                password === 'bakery2025') {
+                
+                console.log('Успішний вхід Михайла');
+                showMessage('Успішний вхід як Михайло! Перенаправлення...', 'success');
+                
+                // Зберігаємо дані користувача
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('currentUser', 'Михайло');
+                localStorage.setItem('isAdmin', 'true');
+                localStorage.setItem('userPhone', '+380688834630');
+                
+                // Перенаправляємо на адмін панель
+                setTimeout(() => {
+                    window.location.href = 'netlify-admin.html';
+                }, 1500);
+                
+            } else {
+                console.log('Неправильні дані для входу');
+                showMessage('Неправильний телефон або пароль', 'error');
+            }
+        });
+
+        // Перевіряємо, чи користувач вже увійшов
+        window.addEventListener('load', function() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const currentUser = localStorage.getItem('currentUser');
+            
+            if (isLoggedIn && currentUser === 'Михайло') {
+                showMessage('Ви вже увійшли як Михайло! Перенаправлення...', 'success');
+                setTimeout(() => {
+                    window.location.href = 'netlify-admin.html';
+                }, 1500);
+            }
+        });
+
+        console.log('🔐 Михайло Admin Login page loaded');
+    </script>
+</body>
+</html>

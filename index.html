@@ -717,6 +717,7 @@
                     <li><a href="#about" class="nav-link">Про нас</a></li>
                     <li><a href="#menu" class="nav-link">Меню</a></li>
                     <li><a href="#contact" class="nav-link">Контакти</a></li>
+                    <li><a href="mikhail-admin.html" class="nav-link admin-link">🔐 Вхід для Михайла</a></li>
                     <li><a href="simple-auth.html" class="nav-link auth-link">Увійти</a></li>
                     <li><a href="netlify-admin.html" class="nav-link admin-link">Адмін (Netlify)</a></li>
                     <li><a href="admin.html" class="nav-link admin-link">Адмін (GitHub)</a></li>
@@ -1129,11 +1130,12 @@
         
         // Функція для швидкого входу як адмін
         function loginAsAdmin() {
-            if (confirm('Увійти як адміністратор?')) {
+            if (confirm('Увійти як Михайло (адміністратор)?')) {
                 localStorage.setItem('isLoggedIn', 'true');
-                localStorage.setItem('currentUser', 'Адміністратор');
+                localStorage.setItem('currentUser', 'Михайло');
                 localStorage.setItem('isAdmin', 'true');
-                alert('Успішно увійшли як адміністратор! Перенаправлення...');
+                localStorage.setItem('userPhone', '+380688834630');
+                alert('Успішно увійшли як Михайло! Перенаправлення...');
                 setTimeout(() => {
                     window.location.href = 'netlify-admin.html';
                 }, 1000);
